@@ -1,0 +1,12 @@
+target/
+.settings/
+.classpath
+node_modules/
+.project
+.settings/*
+bin/
+.metadata/*
+.idea/
+*.orig
+*.iml
+
