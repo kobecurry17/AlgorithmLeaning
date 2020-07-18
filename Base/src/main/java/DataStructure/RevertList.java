@@ -1,4 +1,4 @@
-package Basic;
+package DataStructure;
 
 public class RevertList {
 
