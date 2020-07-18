@@ -3,9 +3,7 @@ package datastructure.impl;
 import lombok.Data;
 
 import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Stack;
-import java.util.TimerTask;
 
 /**
  * 使用堆栈实现队列
@@ -90,5 +88,4 @@ public class UseStackImplementQueue<T> {
         }
         System.out.println("Nice");
     }
-
 }
