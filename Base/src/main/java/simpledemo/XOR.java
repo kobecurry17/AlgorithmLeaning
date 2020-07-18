@@ -1,4 +1,4 @@
-package SimpleDemo;
+package simpledemo;
 
 /**
  * 异或测试
