@@ -79,12 +79,10 @@ public class MergeSort {
 
     public static void main(String[] args) {
         int size = 500000;
-
         int value = 500;
         for (int i = 0; i < size; i++) {
             // 避免长度为 0
-//            int len = (int) (Math.random() * 40) + 1;
-            int len = 33;
+            int len = (int) (Math.random() * 40) + 1;
             int[] arr1 = new int[len];
             int[] arr2 = new int[len];
             int[] arr3 = new int[len];
