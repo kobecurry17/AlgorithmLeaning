@@ -2,6 +2,8 @@ package datastructure;
 
 import lombok.Data;
 
+
+
 @Data
 public class DoublePointNode {
     private int value;
