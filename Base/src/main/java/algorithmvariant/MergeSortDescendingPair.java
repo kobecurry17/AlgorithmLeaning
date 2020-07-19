@@ -3,19 +3,19 @@ package algorithmvariant;
 import java.util.Arrays;
 
 /**
- * 归并排序的应用变种
- * 在数组中，每个数左边比这个数小的数的和称为这个数组的小和
- * 如：数组 【 1，4，8，2，4，3】 的小和为 1 + 1 + 4 + 1 + 1 + 2 + 1 + 2 = 13
+ * 归并排序的变种，降序对
+ * 在数组中，每个数右边比他小的数则可以组成一对降序对
+ * 如：数组 【 1，4，8，2，4，3】 的降序对为： [4,2][4,3][8,2][8,4][8,3][4,3] 共 6 对
  */
-@SuppressWarnings("unchecked")
-public class MergeSortMinSum {
+public class MergeSortDescendingPair {
+
     /**
-     * 小和
+     * 数组中降序对的个数
      *
      * @param arr
      * @return
      */
-    public static int minSum(int[] arr) {
+    public static int DescendingPairSize(int[] arr) {
         if (null != arr && arr.length > 1) {
             return process(arr, 0, arr.length - 1);
         }
@@ -47,15 +47,14 @@ public class MergeSortMinSum {
         int i = 0;
         int p1 = L;
         int p2 = M + 1;
-        int sum = 0;
+        int size = 0;
         int[] help = new int[R - L + 1];
         while (p1 <= M && p2 <= R) {
-            if (arr[p1] < arr[p2]) {
-                help[i++] = arr[p1];
-                sum += (R - p2 + 1) * arr[p1];
-                p1++;
+            if (arr[p1] <= arr[p2]) {
+                help[i++] = arr[p1++];
             } else {
                 help[i++] = arr[p2++];
+                size += M - p1 + 1;
             }
         }
         while (p1 <= M) {
@@ -67,25 +66,25 @@ public class MergeSortMinSum {
         for (i = 0; i < help.length; i++) {
             arr[L + i] = help[i];
         }
-        return sum;
+        return size;
     }
 
     /**
      * 对数器
      *
      * @param arr 数组
-     * @return 小和
+     * @return 将许对的个数
      */
-    public static int getMinByViolence(int[] arr) {
-        int sum = 0;
+    public static int getDescendingPairSize(int[] arr) {
+        int size = 0;
         for (int i = 0; i < arr.length - 1; i++) {
             for (int j = i + 1; j < arr.length; j++) {
-                if (arr[j] > arr[i]) {
-                    sum += arr[i];
+                if (arr[j] < arr[i]) {
+                    size++;
                 }
             }
         }
-        return sum;
+        return size;
     }
 
     public static void main(String[] args) {
@@ -101,8 +100,8 @@ public class MergeSortMinSum {
                 arr1[j] = num;
                 arr2[j] = num;
             }
-            int res1 = minSum(arr1);
-            int res2 = getMinByViolence(arr2);
+            int res1 = DescendingPairSize(arr1);
+            int res2 = getDescendingPairSize(arr2);
             if (res1 != res2) {
                 Arrays.stream(arr2).forEach(e -> System.out.print(e + " |"));
                 System.out.println();
@@ -112,6 +111,4 @@ public class MergeSortMinSum {
         }
         System.out.println("成功");
     }
-
-
 }
