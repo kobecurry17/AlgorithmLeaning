@@ -5,7 +5,7 @@ import com.sun.org.glassfish.gmbal.Description;
 /**
  * 最大堆
  */
-public class MaxHeap {
+public class MaxHeap1 {
 
 
     public static class MyMaxHeap {
