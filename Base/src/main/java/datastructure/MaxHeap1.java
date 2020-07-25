@@ -58,7 +58,7 @@ public class MaxHeap1 {
             return MAX;
         }
 
-        private void heapify() {
+        public void heapify() {
             int index = 0;
             int left = index << 1 | 1;
             while (left < heapSize) {
