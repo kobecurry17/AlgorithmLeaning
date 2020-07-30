@@ -10,3 +10,4 @@ bin/
 *.orig
 *.iml
 *.patch
+*.doc
