@@ -24,7 +24,7 @@ public class DeepClone {
     }
 
     public Node clone1(Node head) {
-        HashMap<>
+//        HashMap<>
         while (head.next != null) {
 
         }
