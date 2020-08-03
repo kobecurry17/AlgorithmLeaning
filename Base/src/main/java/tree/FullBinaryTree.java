@@ -21,12 +21,21 @@ public class FullBinaryTree {
         }
     }
 
+
     /**
-     * 需要从左右孩子得到的信息
+     * 需要从左右孩子得到的信息(优化版)
      */
     private static class Info {
-        private boolean isFull;
         private int height;
+        private int nodes;
+
+        public Info(int height, int nodes) {
+            this.height = height;
+            this.nodes = nodes;
+        }
+
+        public Info() {
+        }
     }
 
     /**
@@ -76,34 +85,47 @@ public class FullBinaryTree {
      */
     public static boolean isFull(Node head) {
         if (null == head) {
-            return false;
+            return true;
         }
-
-        return process(head).isFull;
+        Info process = process(head);
+        return Math.pow(process.height, 2) - 1 == process.nodes;
 
     }
 
 
     private static Info process(Node head) {
-        Info info = new Info();
         if (null == head) {
-            info.isFull = true;
-            info.height = 0;
-            return info;
+            return new Info(0,0);
         }
         Info left = process(head.left);
         Info right = process(head.right);
-
-        if (null == left && null == right) {
-            info.isFull = true;
-            info.height = 1;
-        } else if (left.isFull && right.isFull && left.height == right.height) {
-            info.height = left.height + 1;
-            info.isFull = true;
-        } else {
-            info.isFull = false;
-        }
+        Info info =new Info();
+        info.height=Math.max(left.height,right.height)+1;
+        info.nodes=left.nodes+right.nodes+1;
         return info;
+    }
+
+    private static boolean isFull1(Node head) {
+        if (head == null) {
+            return true;
+        }
+        int height = h(head);
+        int nodes = n(head);
+        return (1 << height) - 1 == nodes;
+    }
+
+    private static int n(Node head) {
+        if (head == null) {
+            return 0;
+        }
+        return n(head.left) + n(head.right);
+    }
+
+    private static int h(Node head) {
+        if (head == null) {
+            return 0;
+        }
+        return Math.max(h(head.right), h(head.left)) + 1;
     }
 
 
@@ -114,7 +136,7 @@ public class FullBinaryTree {
 
     // for test
     private static Node generate(int level, int maxLevel, int maxValue) {
-        if (level > maxLevel || Math.random() < 0.1f) {
+        if (level > maxLevel || Math.random() < 0.4f) {
             return null;
         }
         Node node = new Node((int) (Math.random() * maxValue));
@@ -124,12 +146,12 @@ public class FullBinaryTree {
     }
 
     public static void main(String[] args) {
-        int loopSize = 50_0000;
+        int loopSize = 100_0000;
         int maxValue = 500;
         int maxLevel = 5;
         for (int i = 0; i < loopSize; i++) {
             Node head = generateBTS(maxLevel, maxValue);
-            if (isFull(head) != isFull2(head)) {
+            if (isFull(head) != isFull1(head)) {
                 System.out.println("Oops");
             }
         }
