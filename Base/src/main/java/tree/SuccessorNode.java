@@ -1,4 +1,4 @@
-package datastructure.tree;
+package tree;
 
 /**
  * 寻找结点的后继结点

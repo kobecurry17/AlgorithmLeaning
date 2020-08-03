@@ -1,4 +1,4 @@
-package datastructure.tree;
+package tree;
 
 /**
  * 给定一个头结点，判断一颗树是不是完全二叉树

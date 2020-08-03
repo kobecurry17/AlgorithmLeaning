@@ -1,4 +1,4 @@
-package datastructure.tree;
+package tree;
 
 import java.util.HashMap;
 import java.util.LinkedList;
