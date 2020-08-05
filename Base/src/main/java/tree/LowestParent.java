@@ -68,8 +68,11 @@ public class LowestParent {
 
 
         Node parent = a;
+        set.add(parent);
         while (parent != null) {
-            set.add(map.get(parent));
+            if (null != map.get(parent)) {
+                set.add(map.get(parent));
+            }
             parent = map.get(parent);
         }
         parent = b;
@@ -98,8 +101,8 @@ public class LowestParent {
             if (head.right != null) {
                 map.put(head.right, head);
             }
-            pre(head.left,map);
-            pre(head.right,map);
+            pre(head.left, map);
+            pre(head.right, map);
         }
 
     }
@@ -110,10 +113,10 @@ public class LowestParent {
             return new Node((int) (Math.random() * 500));
         }
         Map<Node, Node> map = new HashMap<>();
-        pre(head,map);
+        pre(head, map);
         if (map.isEmpty()) return null;
         Object[] nodes = map.keySet().toArray();
-        int i = (int) (Math.random() * (nodes.length- 1));
+        int i = (int) (Math.random() * (nodes.length - 1));
         return (Node) nodes[i];
 
     }
@@ -183,7 +186,7 @@ public class LowestParent {
 
     public static void main(String[] args) {
         int loopTimes = 50_000000;
-        int maxLevel = 5;
+        int maxLevel = 3;
         int maxValue = 500;
         for (int i = 0; i < loopTimes; i++) {
             Node head = generateBST(maxLevel, maxValue);
