@@ -32,6 +32,12 @@ public class LowestParent {
         private boolean hasA;
         private boolean hasB;
         private Node intersectNode;
+
+        public Info(boolean hasA, boolean hasB, Node intersectNode) {
+            this.hasA = hasA;
+            this.hasB = hasB;
+            this.intersectNode = intersectNode;
+        }
     }
 
     /**
@@ -130,29 +136,25 @@ public class LowestParent {
      * @return
      */
     private static Info process(Node head, Node a, Node b) {
-        Info info = new Info();
         if (null == head) {
-            return info;
+            return new Info(false,false,null);
         }
         Info left = process(head.left, a, b);
         Info right = process(head.right, a, b);
 
-        boolean hasA = left.hasA || right.hasA;
-        boolean hasB = left.hasB || right.hasB;
-        if (hasA && hasB) {
-            info.hasA = true;
-            info.hasB = true;
-            info.intersectNode = null == left.intersectNode ? null == right.intersectNode ? head : left.intersectNode : right.intersectNode;
-        } else if ((hasA && head.value == b.value) || (hasB && head.value == a.value)) {
-            info.hasA = true;
-            info.hasB = true;
-            info.intersectNode = head;
-        } else if (a.value == head.value) {
-            info.hasA = true;
-        } else if (b.value == head.value) {
-            info.hasB = true;
+        boolean hasA = a == head ||left.hasA || right.hasA;
+        boolean hasB = b == head ||left.hasB || right.hasB;
+        Node ans = null;
+        if(left.intersectNode!=null){
+            ans = left.intersectNode;
         }
-        return info;
+        if(right.intersectNode!=null){
+            ans = right.intersectNode;
+        }
+        if(ans == null && hasA && hasB){
+            ans = head;
+        }
+        return new Info(hasA,hasB,ans);
     }
 
     /**
@@ -163,7 +165,8 @@ public class LowestParent {
      * @return
      */
     public static Node generateBST(int maxLevel, int maxValue) {
-        return generate(1, maxLevel, maxValue);
+        HashSet<Integer> set = new HashSet();
+        return generate(1, maxLevel, maxValue,set);
     }
 
     /**
@@ -172,21 +175,27 @@ public class LowestParent {
      * @param level
      * @param maxLevel
      * @param maxValue
+     * @param set
      * @return
      */
-    private static Node generate(int level, int maxLevel, int maxValue) {
+    private static Node generate(int level, int maxLevel, int maxValue, HashSet<Integer> set) {
         if (level > maxLevel || Math.random() < 0.1) {
             return null;
         }
-        Node node = new Node((int) (Math.random() * maxValue));
-        node.left = generate(level + 1, maxLevel, maxValue);
-        node.right = generate(level + 1, maxLevel, maxValue);
+        int value ;
+        do {
+            value = (int) (Math.random() * maxValue);
+        }while (set.contains(value));
+        set.add(value);
+        Node node = new Node(value);
+        node.left = generate(level + 1, maxLevel, maxValue, set);
+        node.right = generate(level + 1, maxLevel, maxValue, set);
         return node;
     }
 
     public static void main(String[] args) {
         int loopTimes = 50_000000;
-        int maxLevel = 3;
+        int maxLevel = 5;
         int maxValue = 500;
         for (int i = 0; i < loopTimes; i++) {
             Node head = generateBST(maxLevel, maxValue);
@@ -195,8 +204,8 @@ public class LowestParent {
             do {
                 b = findRandomNode(head);
             } while (b == a);
-            if (findParent1(head, a, b) != findParent2(head, a, b)) {
-                System.out.println("Oops");
+            if(findParent1(head,a,b) != findParent2(head,a,b)){
+                System.out.println("Oops!");
             }
         }
         System.out.println("Nice");
