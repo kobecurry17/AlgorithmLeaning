@@ -61,16 +61,23 @@ public class LeastLight {
     private static Integer minLight2(char[] lights) {
         int ans = 0;
         boolean[] need = new boolean[lights.length];
-        if(lights.length>1&&lights[1] =='X'){
+        // 优先处理第一位
+        // 如果只有一个灯位则返回1
+        // 如果第一个位置是灯，第二个位置是墙，在第一个位置放灯
+        if (lights.length == 1 || (lights.length > 1 && lights[1] == 'X')) {
             ans++;
-            need[0] =true;
+            need[0] = true;
         }
+        // 在不越界的情况下。
+        // 如果i的位置是. 且前一个位置有灯，则进入下一轮
+        // 如果i的位置是灯，且前一个位置是.但是没有放灯则放灯
+        // 如果i+1位置是X，且当前位置没有被照亮，则放灯
         for (int i = 1; i < lights.length; i++) {
             if (lights[i] == '.') {
-                if(need[i-1]){
+                if (need[i - 1]) {
                     continue;
                 }
-                if ((lights[i-1] == '.' && !need[i-1])||(i+1<lights.length&&lights[i+1]=='X')){
+                if ((lights[i - 1] == '.' && !need[i - 1]) || (i + 1 < lights.length && lights[i + 1] == 'X')) {
                     need[i] = true;
                     ans++;
                 }
