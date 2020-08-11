@@ -17,7 +17,7 @@ public class UnionSet<T> {
      * 集合大小
      */
     private Map<Node, Integer> sizeMap;
-
+    // 加入parent 使isUnion效率提升为O(1)
     private Map<Node, Node> parentMap;
 
 
