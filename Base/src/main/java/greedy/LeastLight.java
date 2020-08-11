@@ -60,19 +60,22 @@ public class LeastLight {
      */
     private static Integer minLight2(char[] lights) {
         int ans = 0;
-        for (int i = 0; i < lights.length; i++) {
-            if(i>0){
-                if(lights[i] == '.'){
-                    if(lights[i-1]
-
-
+        boolean[] need = new boolean[lights.length];
+        if(lights.length>1&&lights[1] =='X'){
+            ans++;
+            need[0] =true;
+        }
+        for (int i = 1; i < lights.length; i++) {
+            if (lights[i] == '.') {
+                if(need[i-1]){
+                    continue;
                 }
-
-
+                if ((lights[i-1] == '.' && !need[i-1])||(i+1<lights.length&&lights[i+1]=='X')){
+                    need[i] = true;
+                    ans++;
+                }
             }
         }
-
-
         return ans;
     }
 
@@ -97,13 +100,12 @@ public class LeastLight {
 
         for (int i = 0; i < loops; i++) {
             char[] lights = generate(((int) (maxSize * Math.random())));
-            System.out.println(lights);
             Integer l1 = minLight1(lights);
             Integer l2 = minLight2(lights);
             if (l1 != l2 && l1.equals(l2)) {
                 System.out.println("Oops");
             }
-
+            System.out.println(1);
         }
         System.out.println("Nice");
     }
