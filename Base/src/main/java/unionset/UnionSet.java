@@ -1,22 +1,24 @@
 package unionset;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 并查集(要求时间复杂度O(1))
  * 实现 inSameSet( A , B )
  * 实现 union( A , B )
  */
+@SuppressWarnings("all")
 public class UnionSet<T> {
     /**
      * 对象集合映射表
      */
-    private Map<T, Node> unionMap;
+    private Map<T, Node> nodes;
     /**
      * 集合大小
      */
     private Map<Node, Integer> sizeMap;
+
+    private Map<Node, Node> parentMap;
 
 
     /**
@@ -27,12 +29,27 @@ public class UnionSet<T> {
      * @return
      */
     public boolean isSameSet(T a, T b) {
-        Node node1 = unionMap.get(a);
-        Node node2 = unionMap.get(b);
+        Node node1 = nodes.get(a);
+        Node node2 = nodes.get(b);
         if (null == node1 || null == node2) {
             return false;
         }
-        return node1 == node2;
+        return findParentNode(node1) == findParentNode(node2);
+    }
+
+    /**
+     * 寻找一个结点的父节点，不存在则返回 Null
+     *
+     * @param node
+     * @return
+     */
+    private Node findParentNode(Node node) {
+        Node parent = null;
+        while (node != null && node != parent) {
+            parent = node;
+            node = parentMap.get(node);
+        }
+        return parent;
     }
 
 
@@ -42,32 +59,38 @@ public class UnionSet<T> {
      * @param a
      * @param b
      */
-    public void union(T a, T b) {
-        Node node1 = unionMap.get(a);
-        Node node2 = unionMap.get(b);
-
-        if (null == node1 && null == node2) {
-            node1 = new Node(a);
-            unionMap.put(a, node1);
-            unionMap.put(b, node1);
-            sizeMap.put(node1, 2);
-        } else if (node1 == null || node2 == null) {
-            node1 = null == node1 ? node2 : node1;
-            unionMap.put(a,node1);
-            unionMap.put(b,node1);
-            sizeMap.put(node1,sizeMap.get(node1)+1);
-        } else {
-            int size1 = sizeMap.get(node1);
-            int size2 = sizeMap.get(node1);
-            if(size1)
+    public void union2(T a, T b) {
+        if (!nodes.containsKey(a) || !nodes.containsKey(b)) {
+            return;
         }
-
+        Node A = nodes.get(a);
+        Node B = nodes.get(b);
+        Node parentNode1 = findParentNode(A);
+        Node parentNode2 = findParentNode(B);
+        if (parentNode1 != parentNode2) {
+            Integer size1 = sizeMap.get(parentNode1);
+            Integer size2 = sizeMap.get(parentNode2);
+            if (size1 < size2) {
+                parentMap.put(parentNode2, parentNode1);
+                sizeMap.put(parentNode2, size1 + size2);
+            } else {
+                parentMap.put(parentNode1, parentNode2);
+                sizeMap.put(parentNode1, size1 + size2);
+            }
+        }
     }
 
-    public UnionSet() {
-        unionMap = new HashMap<>();
+
+    public UnionSet(T[] list) {
+        nodes = new HashMap<>();
         sizeMap = new HashMap<>();
         parentMap = new HashMap<>();
+        for (T t : list) {
+            Node node = new Node(t);
+            nodes.put(t, node);
+            parentMap.put(node, node);
+            sizeMap.put(node, 1);
+        }
     }
 
 
@@ -78,4 +101,26 @@ public class UnionSet<T> {
             this.t = t;
         }
     }
+
+    public static void main(String[] args) {
+        Integer[] arr = {1, 3, 2, 5, 7, 8, 4, 10};
+        UnionSet<Integer> unionSet = new UnionSet(arr);
+        System.out.println("unionSet.isSameSet(1,3)" + unionSet.isSameSet(1, 3));
+        System.out.println("unionSet.isSameSet(1,2)" + unionSet.isSameSet(1, 2));
+        System.out.println("unionSet.isSameSet(1,3)" + unionSet.isSameSet(1, 3));
+        System.out.println("unionSet.isSameSet(1,5)" + unionSet.isSameSet(1, 5));
+        System.out.println("unionSet.isSameSet(1,7)" + unionSet.isSameSet(1, 7));
+        System.out.println("unionSet.isSameSet(1,4)" + unionSet.isSameSet(1, 4));
+        unionSet.union2(3, 5);
+        unionSet.union2(2, 7);
+        unionSet.union2(1, 5);
+        System.out.println("unionSet.isSameSet(1,3)" + unionSet.isSameSet(1, 3));
+        System.out.println("unionSet.isSameSet(1,2)" + unionSet.isSameSet(1, 2));
+        System.out.println("unionSet.isSameSet(1,3)" + unionSet.isSameSet(1, 3));
+        System.out.println("unionSet.isSameSet(1,5)" + unionSet.isSameSet(1, 5));
+        System.out.println("unionSet.isSameSet(1,7)" + unionSet.isSameSet(1, 7));
+        System.out.println("unionSet.isSameSet(1,4)" + unionSet.isSameSet(1, 4));
+
+    }
+
 }
