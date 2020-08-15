@@ -1,5 +1,7 @@
 package datastructure.graph;
 
+import org.w3c.dom.NamedNodeMap;
+
 import java.util.HashSet;
 
 /**
@@ -30,9 +32,19 @@ public class GenerateGraph {
             if (!graph.nodes.containsKey(from)) {
                 graph.nodes.put(from, new Node(matrix[i][1]));
             }
-            if(!graph.nodes.cont)
-
-
+            if (!graph.nodes.containsKey(to)) {
+                graph.nodes.put(to, new Node(matrix[i][2]));
+            }
+            Node fromNode = graph.getNodes().get(from);
+            Node toNode = graph.getNodes().get(to);
+            Edge edge = new Edge(fromNode, toNode, matrix[i][0]);
+            graph.edges.add(edge);
+            fromNode.setOut(fromNode.getOut() + 1);
+            toNode.setIn(toNode.getIn() + 1);
+            fromNode.nexts.add(toNode);
+            fromNode.edges.add(edge);
+            toNode.edges.add(edge);
         }
-
+        return graph;
     }
+}
