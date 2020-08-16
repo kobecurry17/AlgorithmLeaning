@@ -33,6 +33,11 @@ public class Node {
 
     }
 
+    @Override
+    public String toString() {
+        return value+"";
+    }
+
     public int getValue() {
         return value;
     }
