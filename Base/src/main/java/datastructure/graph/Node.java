@@ -4,7 +4,6 @@ import lombok.Data;
 
 import java.util.ArrayList;
 
-@Data
 @SuppressWarnings("all")
 public class Node {
 
@@ -29,5 +28,48 @@ public class Node {
 
     public Node(int value) {
         this.value = value;
+        nexts = new ArrayList<>();
+        edges = new ArrayList<>();
+
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public int getIn() {
+        return in;
+    }
+
+    public void setIn(int in) {
+        this.in = in;
+    }
+
+    public int getOut() {
+        return out;
+    }
+
+    public void setOut(int out) {
+        this.out = out;
+    }
+
+    public ArrayList<Node> getNexts() {
+        return nexts;
+    }
+
+    public void setNexts(ArrayList<Node> nexts) {
+        this.nexts = nexts;
+    }
+
+    public ArrayList<Edge> getEdges() {
+        return edges;
+    }
+
+    public void setEdges(ArrayList<Edge> edges) {
+        this.edges = edges;
     }
 }
