@@ -5,6 +5,7 @@ import java.util.*;
 /**
  * 图的广度优先遍历
  */
+@SuppressWarnings("all")
 public class WidthFirst {
 
     public static void  traverse(Graph graph){
