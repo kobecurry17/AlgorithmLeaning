@@ -20,7 +20,8 @@ public class CharacterTransfer {
         if (null == str || str.trim().equals("")) {
             return 0;
         }
-        return process(str, 0);
+        char[] array = str.toCharArray();
+        return process(array, 0);
     }
 
     public static int transformSize2(String str) {
@@ -29,45 +30,38 @@ public class CharacterTransfer {
         }
         char[] array = str.toCharArray();
         int[] dp = new int[array.length + 1];
-        for (int i = array.length-1; i >= 0; i--) {
+        dp[dp.length - 1] = 1;
+        for (int i = array.length - 1; i >= 0; i--) {
             if (array[i] == '0') {
                 dp[i] = 0;
-            } else {
-                dp[i]++;
-                if (i < array.length - 1) {
-                    if (array[i] == '1') {
-                        dp[i] += dp[i + 2];
-                    }
-                    if (array[i] == '2' && array[i + 1] >= 0 && array[i + 1] <= '6') {
-                        dp[i] += dp[i + 2];
-                    }
-                }
-                dp[i] += dp[i + 1];
+                continue;
             }
+            if (i < array.length - 1) {
+                if (array[i] == '1' || (array[i] == '2' && array[i + 1] >= 0 && array[i + 1] <= '6')) {
+                    dp[i] += dp[i + 2];
+                }
+            }
+            dp[i] += dp[i + 1];
         }
         return dp[0];
     }
 
 
-    private static int process(String str, int index) {
+    private static int process(char[] str, int index) {
         int res = 0;
         // base case
-        if (index >= str.length()) {
+        if (index >= str.length) {
             return 1;
         }
-        if (str.charAt(index) == '0') {
+        if (str[index] == '0') {
             return 0;
         }
-        if (index < str.length() - 1) {
-            if (str.charAt(index) == '1') {
-                res += process(str, index + 2);
-            }
-            char next = str.charAt(index + 1);
-            if (str.charAt(index) == '2' && next >= 0 && next <= '6') {
+        if (index < str.length - 1) {
+            if (str[index] == '1' || (str[index] == '2' && str[index + 1] >= 0 && str[index + 1] <= '6')) {
                 res += process(str, index + 2);
             }
         }
-        res += process(str, ++index);
+        res += process(str, index + 1);
         return res;
     }
 
@@ -83,13 +77,12 @@ public class CharacterTransfer {
         int loops = 50_0000;
         int maxLength = 30;
         for (int i = 0; i < loops; i++) {
-            String generate = generate((3));
-//            String generate = generate((int) (Math.random() * maxLength));
+            String generate = generate((int) (Math.random() * maxLength));
             int i1 = transformSize(generate);
             int i2 = transformSize2(generate);
-            if(i1!=i2){
-               System.out.println("Oops!");
-           }
+            if (i1 != i2) {
+                System.out.println("Oops!");
+            }
         }
         System.out.println("Nice");
     }
