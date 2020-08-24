@@ -23,6 +23,32 @@ public class CharacterTransfer {
         return process(str, 0);
     }
 
+    public static int transformSize2(String str) {
+        if (null == str || str.trim().equals("")) {
+            return 0;
+        }
+        char[] array = str.toCharArray();
+        int[] dp = new int[array.length + 1];
+        for (int i = array.length-1; i >= 0; i--) {
+            if (array[i] == '0') {
+                dp[i] = 0;
+            } else {
+                dp[i]++;
+                if (i < array.length - 1) {
+                    if (array[i] == '1') {
+                        dp[i] += dp[i + 2];
+                    }
+                    if (array[i] == '2' && array[i + 1] >= 0 && array[i + 1] <= '6') {
+                        dp[i] += dp[i + 2];
+                    }
+                }
+                dp[i] += dp[i + 1];
+            }
+        }
+        return dp[0];
+    }
+
+
     private static int process(String str, int index) {
         int res = 0;
         // base case
@@ -57,8 +83,14 @@ public class CharacterTransfer {
         int loops = 50_0000;
         int maxLength = 30;
         for (int i = 0; i < loops; i++) {
-            String generate = generate((int) (Math.random() * maxLength));
-            System.out.println(transformSize(generate));
+            String generate = generate((3));
+//            String generate = generate((int) (Math.random() * maxLength));
+            int i1 = transformSize(generate);
+            int i2 = transformSize2(generate);
+            if(i1!=i2){
+               System.out.println("Oops!");
+           }
         }
+        System.out.println("Nice");
     }
 }
