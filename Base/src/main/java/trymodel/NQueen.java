@@ -12,6 +12,7 @@ public class NQueen {
         return (int) (Math.random() * max);
     }
 
+    // TODO 再练习
     public static int nQueen1(int n) {
         if (n < 1) {
             return 0;
@@ -30,24 +31,35 @@ public class NQueen {
      */
     private static int process(int level, int[] record, int n) {
         // 摆完了
-        if (level > n) {
+        if (level == n) {
             return 1;
         }
         int res = 0;
+
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < level; j++) {
-                {
-                    if (!isValid(record,level,j)) {
-                        return 0;
-                    } else {
-                        record[i] = j;
-                        res += process(level + 1, record, n);
-                        record[j] = 0;
-                    }
-                }
+            if (isValid(record, level, i)) {
+                record[level] = i;
+                res += process(level + 1, record, n);
             }
         }
         return res;
+    }
+
+    /**
+     * 验证level层皇后可以摆在index位置吗？
+     *
+     * @param record
+     * @param level
+     * @param index
+     * @return
+     */
+    private static boolean isValid(int[] record, int level, int index) {
+        for (int i = 0; i < level; i++) {
+            if (record[i] == index || Math.abs(record[i] - index) == Math.abs(level - i)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void main(String[] args) {
