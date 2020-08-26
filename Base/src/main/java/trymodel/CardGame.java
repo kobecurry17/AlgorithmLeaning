@@ -77,33 +77,17 @@ public class CardGame {
             F[i][i] = arr[i];
         }
 
-
-        for (int i = N; i >=0; i--) {
-            for (int j = 0; j < ; j++) {
-
+        for (int i = 1; i < N; i++) {
+            int L = 0;
+            int R = i;
+            while (R < N) {
+                F[L][R] = Math.min(arr[L] + S[L + 1][R], arr[R] + S[L][R - 1]);
+                S[L][R] = Math.max(F[L + 1][R], F[L][R - 1]);
+                L++;
+                R++;
             }
         }
-
-
-        if (L == R) {
-            return arr[L];
-        }
-        return Math.min(arr[L] + s(arr, L + 1, R), arr[R] + s(arr, L, R - 1));
-
-
-
-
-
-        return Math.max(S[0][N], F[0][N]);
-
-
-        int f = f(arr, 0, arr.length - 1);
-
-        int s = s(arr, 0, arr.length - 1);
-
-        return Math.max(f, s);
-
-        return
+        return Math.max(S[0][N - 1], F[0][N - 1]);
     }
 
 
@@ -119,17 +103,18 @@ public class CardGame {
         return arr;
     }
 
-
     public static void main(String[] args) {
         int loops = 50_0000;
-        int maxLength = 30;
-//        for (int i = 0; i < loops; i++) {
-        int[] arr = {5, 2, 1, 23, 10};
-        if (true) {
-            System.out.println(winnerScore(arr));
-//            }
+        int maxSize = 10;
+        int maxValue = 30;
+        for (int i = 0; i < loops; i++) {
+            int[] arr = generate(maxSize, maxValue);
+            if (winnerScore(arr) != winnerScore2(arr)) {
+                System.out.println("Oops");
+            }
+            System.out.println(1);
         }
-
+        System.out.println("Nice");
     }
 
 }
