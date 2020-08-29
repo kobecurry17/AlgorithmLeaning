@@ -18,7 +18,7 @@ public class NQueen {
             return 0;
         }
         int[] record = new int[n];
-        return process(1, record, n);
+        return process(0, record, n);
     }
 
     /**
@@ -62,9 +62,66 @@ public class NQueen {
         return true;
     }
 
-    public static void main(String[] args) {
-        System.out.println(nQueen1(10));
-
+    /**
+     * 对常数项进行优化
+     *
+     * @param n
+     * @return
+     */
+    private static int nQueen2(int n) {
+        if (n < 1 || n > 32) {
+            return 0;
+        }
+        if (n < 1) {
+            return 0;
+        }
+        int limit = n == 32 ? -1 : (1 << n) - 1;
+        return process2(limit, 0, 0, 0);
     }
 
+    /**
+     * @param limit 例如当N = 8 时limit= 0000....0000 11111111
+     * @param col
+     * @param left
+     * @param right
+     * @return
+     */
+    private static int process2(int limit, int col, int left, int right) {
+        if (col == limit) {
+            return 1;
+        }
+        int res = 0;
+        int allow = limit & (~(col | left | right));
+        // 第一个可以放的位置
+        int mostRightOne = 0;
+        while (0 != allow) {
+            mostRightOne = (~allow + 1) & allow;
+            allow = allow - mostRightOne;
+            res += process2(
+                    limit,
+                    col | mostRightOne,
+                    (left | mostRightOne) << 1,
+                    (right | mostRightOne) >>> 1
+            );
+        }
+        return res;
+    }
+
+    // for testing
+    public static int generate(int maxValue) {
+        return (int) (Math.random() * maxValue) + 1;
+    }
+
+    public static void main(String[] args) {
+        int loops = 50_0000;
+        int maxValue = 10;
+        for (int i = 0; i < loops; i++) {
+            int N = generate(maxValue);
+            int i1 = nQueen1(N);
+            int i2 = nQueen2(N);
+            if (i1 != i2) {
+                System.out.println("Oops");
+            }
+        }
+    }
 }

@@ -1,6 +1,5 @@
 package datastructure;
 
-import com.sun.org.glassfish.gmbal.Description;
 
 /**
  * 最大堆

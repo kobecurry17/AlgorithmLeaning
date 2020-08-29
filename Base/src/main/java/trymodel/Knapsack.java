@@ -1,6 +1,5 @@
 package trymodel;
 
-import org.omg.CORBA.BAD_CONTEXT;
 
 /**
  * 背包问题
