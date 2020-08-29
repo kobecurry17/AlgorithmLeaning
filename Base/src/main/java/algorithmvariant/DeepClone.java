@@ -1,8 +1,5 @@
 package algorithmvariant;
 
-import javafx.scene.chart.ValueAxis;
-import lombok.Data;
-
 import java.util.HashMap;
 
 /**
@@ -27,7 +24,7 @@ public class DeepClone {
     }
 
     public static Node clone1(Node head) {
-        HashMap<Node, Node> map = new HashMap<>();
+        HashMap<Node, Node> map = new HashMap();
         Node cur = head;
         while (cur != null) {
             map.put(cur, new Node(cur.value));
