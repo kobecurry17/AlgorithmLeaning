@@ -1,4 +1,4 @@
-package window;
+package trymodel;
 
 import java.util.Arrays;
 
