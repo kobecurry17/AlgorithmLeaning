@@ -82,23 +82,23 @@ public class SubArrSumMutSubMinValue {
 
         LinkedList<Integer> qMin = new LinkedList<Integer>();
         int ans = Integer.MIN_VALUE;
-        int min = -1;
+        int min = 0;
+
+        // 当R越界的时候进行答案计算
         while (L < arr.length) {
             while (R < arr.length) {
-                while (!qMin.isEmpty() && arr[qMin.peekLast()] >= arr[R]) {
-                    if(qMin.size()==1){
-                        break;
-                    }
-                    qMin.pollLast();
+                if (!qMin.isEmpty() && arr[qMin.peekLast()] >= arr[R]) {
+                   min =  qMin.pollFirst();
+                    break;
                 }
                 qMin.addLast(R);
                 R++;
             }
             int sum = 0;
-            for (int i = L; i < R; i++) {
+            for (int i = L; i < min; i++) {
                 sum += arr[i];
             }
-            ans = Math.max(sum * arr[qMin.pollFirst()], ans);
+            ans = Math.max(sum * arr[min], ans);
             if (!qMin.isEmpty()&&qMin.getFirst() == L) {
                 qMin.pollFirst();
             }
