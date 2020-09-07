@@ -1,4 +1,4 @@
-package window;
+package singlestack;
 
 import java.util.Arrays;
 import java.util.LinkedList;
