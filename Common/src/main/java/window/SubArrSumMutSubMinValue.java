@@ -2,11 +2,13 @@ package window;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.logging.XMLFormatter;
 
 /**
  * 给定一个只包含正数的数组arr，arr中的任意一个子数组sub
  * 一定能够计算出sub的累加和*sub中的最小值是什么
  * 那么所有子数组中，这个值最大是多少？
+ * 前提：都是正数
  */
 @SuppressWarnings("all")
 public class SubArrSumMutSubMinValue {
@@ -71,41 +73,27 @@ public class SubArrSumMutSubMinValue {
     }
 
     /**
-     * 滑动窗口
-     *
      * @param arr
      * @return
      */
     private static int ans2(int[] arr) {
-        int L = 0;
-        int R = 0;
-
-        LinkedList<Integer> qMin = new LinkedList<Integer>();
-        int ans = Integer.MIN_VALUE;
-        int min = 0;
-
-        // 当R越界的时候进行答案计算
-        while (L < arr.length) {
-            while (R < arr.length) {
-                if (!qMin.isEmpty() && arr[qMin.peekLast()] >= arr[R]) {
-                   min =  qMin.pollFirst();
-                    break;
-                }
-                qMin.addLast(R);
+        int L, R;
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < arr.length; i++) {
+            L = i;
+            R = i;
+            int sum = arr[i];
+            while (L > 0 && arr[L - 1] >= arr[i]) {
+                L--;
+                sum += arr[L];
+            }
+            while (R < arr.length-1 && arr[R + 1] >= arr[i]) {
                 R++;
+                sum += arr[R];
             }
-            int sum = 0;
-            for (int i = L; i < min; i++) {
-                sum += arr[i];
-            }
-            ans = Math.max(sum * arr[min], ans);
-            if (!qMin.isEmpty()&&qMin.getFirst() == L) {
-                qMin.pollFirst();
-            }
-            L++;
+            max = Math.max(max, sum * arr[i]);
         }
-
-        return ans;
+        return max;
     }
 
     public static void main(String[] args) {
