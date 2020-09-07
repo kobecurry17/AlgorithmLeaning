@@ -2,6 +2,7 @@ package window;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Stack;
 import java.util.logging.XMLFormatter;
 
 /**
@@ -14,6 +15,7 @@ import java.util.logging.XMLFormatter;
 public class SubArrSumMutSubMinValue {
     /**
      * 暴力解
+     * 时间复杂度O(n²)
      *
      * @param arr
      * @return
@@ -73,6 +75,9 @@ public class SubArrSumMutSubMinValue {
     }
 
     /**
+     * 时间复杂度O(n²)
+     * 加速了常数项
+     *
      * @param arr
      * @return
      */
@@ -87,7 +92,7 @@ public class SubArrSumMutSubMinValue {
                 L--;
                 sum += arr[L];
             }
-            while (R < arr.length-1 && arr[R + 1] >= arr[i]) {
+            while (R < arr.length - 1 && arr[R + 1] >= arr[i]) {
                 R++;
                 sum += arr[R];
             }
@@ -96,17 +101,75 @@ public class SubArrSumMutSubMinValue {
         return max;
     }
 
+
+    /**
+     * 时间复杂度O(n²)
+     * 加速了常数项
+     *
+     * @param arr
+     * @return
+     */
+    private static int ans3(int[] arr) {
+        int L, R;
+        int max = Integer.MIN_VALUE;
+        int[][] res = monotonousStack(arr);
+        int sum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            sum = 0;
+            for (int j = res[i][0]; j <= res[i][1]; j++) {
+                sum += arr[j];
+            }
+            max = Math.max(max, sum * arr[i]);
+        }
+        return max;
+    }
+
+    /**
+     * 通过单调栈，寻找每一个元素作为最小值的边界在哪
+     * TODO: 多练习+实现重复值的场景
+     *
+     * @param arr
+     * @return
+     */
+    private static int[][] monotonousStack(int[] arr) {
+        int[][] res = new int[arr.length][2];
+        Stack<Integer> stack = new Stack<>();
+        int last = 0;
+        for (int i = 0; i < arr.length; i++) {
+            while (!stack.isEmpty() && arr[stack.peek()] > arr[i]) {
+                Integer top = stack.pop();
+                int leftLessIndex = stack.isEmpty() ? last : stack.peek() + 1;
+                res[top][1] = i - 1;
+                res[top][0] = leftLessIndex;
+                if (stack.isEmpty()) {
+                    last = top;
+                }
+            }
+            stack.push(i);
+        }
+        Integer top = -1;
+        last = -1;
+        while (!stack.isEmpty()) {
+            top = stack.pop();
+            int leftLessIndex = stack.isEmpty() ? 0 : stack.peek() + 1;
+            res[top][0] = leftLessIndex;
+            res[top][1] = arr.length - 1;
+            last = top;
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         int loops = 50_0000;
         int maxValue = 5;
         int maxSize = 4;
         for (int i = 0; i < loops; i++) {
             int[] arr = generate(maxSize, maxValue);
-//            int[] arr = new int[]{2, 3, 4};
+//            int[] arr = new int[]{2,3,4};
             int i1 = ans1(arr);
             int i2 = ans2(arr);
-            if (i1 != i2) {
-                ans2(arr);
+            int i3 = ans3(arr);
+            if (i1 != i2 || i3 != i2) {
                 System.out.println("Oops");
             }
         }
