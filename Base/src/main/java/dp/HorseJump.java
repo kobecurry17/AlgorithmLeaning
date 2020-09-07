@@ -1,7 +1,7 @@
 package dp;
 
 /**
- * 在 10 * 9 的棋盘上从 0,0 跳到x,y 用K步
+ * 在 10 * 9 的棋盘上从 任意位置 跳到 (x,y) 用K步。
  * 问：一共有多少种跳法
  */
 public class HorseJump {
@@ -114,12 +114,14 @@ public class HorseJump {
         int width = 10;
         int height = 9;
         int maxStep = 12;
+        int fromX = generate(width);
+        int fromY = generate(height);
         for (int i = 0; i < loops; i++) {
             int x = generate(width);
             int y = generate(height);
             int k = generate(maxStep);
-            int ans1 = horseJump(0, 0, x, y, k);
-            int ans2 = horseJumpDP(0, 0, x, y, k);
+            int ans1 = horseJump(fromX, fromY, x, y, k);
+            int ans2 = horseJumpDP(fromX, fromY, x, y, k);
             if (ans1 != ans2) {
                 System.out.println("Oops");
             }
