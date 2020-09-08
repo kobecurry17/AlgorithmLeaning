@@ -1,6 +1,5 @@
 package singlestack;
 
-import java.util.IllformedLocaleException;
 import java.util.Stack;
 
 /**
@@ -34,6 +33,7 @@ public class MaxMatrix {
 
     /**
      * 矩阵中最大的矩形面积
+     * 单调栈预处理
      *
      * @param arr
      * @return
@@ -43,17 +43,19 @@ public class MaxMatrix {
             return 0;
         }
         int max = Integer.MIN_VALUE;
-        int length = 0;
-        int maxHeight = 0;
+        int length;
+        int maxHeight;
         int[][] help = helpArr(arr);
         for (int i = 0; i < arr.length; i++) {
-            length = 0;
             for (int j = 0; j < arr[0].length; j++) {
-                if (help[i][j] != 0) {
-                    maxHeight = Math.max(help[i][j], maxHeight);
-                    max = Math.max(max, length * maxHeight);
-                } else {
-                    length = 0;
+                length = 0;
+                int index = i;
+                maxHeight = 0;
+                while (index < arr.length && help[index][j] != 0) {
+                    length++;
+                    maxHeight = maxHeight == 0 ? help[index][j] : Math.min(help[index][j], maxHeight);
+                    max = Math.max(max, maxHeight * length);
+                    index++;
                 }
             }
         }
@@ -61,6 +63,9 @@ public class MaxMatrix {
     }
 
     /**
+     * <p>
+     * 单调栈
+     * </p>
      * 计算每个位置由它往下最大能组成多大的矩形
      *
      * @param arr
@@ -86,14 +91,13 @@ public class MaxMatrix {
                 help[i][stack.pop()] = ++size;
             }
         }
-
         return help;
     }
 
     // for test
-        public static int generate(int maxValue) {
-            return (int) (Math.random() * maxValue);
-        }
+    public static int generate(int maxValue) {
+        return (int) (Math.random() * maxValue);
+    }
 
     public static void main(String[] args) {
         int loops = 50_0000;
@@ -102,7 +106,13 @@ public class MaxMatrix {
         for (int i = 0; i < loops; i++) {
             int height = generate(maxHeight);
             int width = generate(maxWidth);
-            int[][] arr = generateArr(height, width);
+//            int[][] arr = generateArr(height, width);
+            int[][] arr = {
+                    {1, 0, 1, 1},
+                    {0, 1, 1, 1},
+                    {0, 1, 1, 1},
+                    {0, 1, 1, 0}
+            };
             int ans1 = maxRectInMatrix(arr);
             System.out.println(ans1);
         }
