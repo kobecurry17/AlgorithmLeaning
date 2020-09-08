@@ -83,22 +83,29 @@ public class FibonacciProblem {
 
         int ans = 0;
         int[][] matrix = {{1, 1}, {1, 0}};
+        for (int i = 0; i <n/2; i++) {
+            matrix = matrixMut(matrix, matrix);
+        }
 
-        int power = n / 2;
-        int[][] finalMatrix = mutlMatrix(matrix, power);
+
+
+
         return ans;
     }
 
     /**
      * 矩阵乘积
-     *
-     * @param matrix
-     * @param power
-     * @return
      */
-    private int[][] mutlMatrix(int[][] matrix, int power) {
-
-        return new int[0][];
+    private static int[][] matrixMut(int[][] matrix1, int[][] matrix2) {
+        int[][] matrix = new int[matrix1.length][matrix2[0].length];
+        for (int i = 0; i < matrix1.length; i++) {
+            for (int j = 0; j < matrix2[0].length; j++) {
+                for (int k = 0; k < matrix2.length; k++) {
+                    matrix[i][j] += matrix1[i][k]*matrix2[k][j];
+                }
+            }
+        }
+        return matrix;
     }
 
 
@@ -110,6 +117,19 @@ public class FibonacciProblem {
     public static void main(String[] args) {
         int loops = 50_0000;
         int max = 30;
+
+        int[][] matrix1 ={
+                {1,3},
+                {1,0},
+                {1,2}
+        };
+        int[][] matrix2 ={
+                {0,0,2},
+                {3,2,0},
+        };
+
+        int[][] ints = matrixMut(matrix1, matrix2);
+
         for (int i = 0; i < loops; i++) {
             int n = generate(max);
 //            int ans1 = f1(n);
@@ -120,6 +140,8 @@ public class FibonacciProblem {
             }
         }
         System.out.println("Nice");
+
+
     }
 
 }
