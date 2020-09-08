@@ -11,6 +11,7 @@ import java.util.Stack;
  * 0-0-1
  * 最大矩阵为 6,即(0,0)->(1,2)
  */
+@SuppressWarnings("all")
 public class MaxMatrix {
 
     // for testing
@@ -107,13 +108,7 @@ public class MaxMatrix {
         for (int i = 0; i < loops; i++) {
             int height = generate(maxHeight);
             int width = generate(maxWidth);
-//            int[][] arr = generateArr(height, width);
-            int[][] arr = {
-                    {1, 0, 1, 1},
-                    {0, 1, 1, 1},
-                    {0, 1, 1, 1},
-                    {0, 1, 1, 0}
-            };
+            int[][] arr = generateArr(height, width);
             int ans1 = maxRectInMatrix(arr);
             System.out.println(ans1);
         }
