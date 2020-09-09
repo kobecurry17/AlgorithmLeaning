@@ -29,7 +29,7 @@ public class FibonacciProblem {
      */
     public static int f2(int n) {
         int t_2 = 1;
-        int t_1 = 2;
+        int t_1 = 1;
         if (n == 1 || n == 2) {
             return 1;
         }
@@ -57,7 +57,7 @@ public class FibonacciProblem {
         }
         int[] dp = new int[n + 1];
         dp[0] = 1;
-        dp[1] = 2;
+        dp[1] = 1;
         for (int i = 2; i < dp.length; i++) {
             dp[i] = dp[i - 1] + dp[i - 2];
         }
@@ -73,25 +73,72 @@ public class FibonacciProblem {
      * @param n
      * @return
      */
-    public int f4(int n) {
+    public static int f4(int n) {
         if (n < 1) {
             return 0;
         }
         if (n == 1 || n == 2) {
             return 1;
         }
+        int[][] matrix = {
+                {1, 1},
+                {1, 0}
+        };
+        int res[][] = matrixPower(matrix, n - 2);
+        return res[0][0] + res[1][0];
+    }
 
-        int ans = 0;
-        int[][] matrix = {{1, 1}, {1, 0}};
-        for (int i = 0; i <n/2; i++) {
-            matrix = matrixMut(matrix, matrix);
+    /**
+     * 拓展1
+     * F(n)=3F(n-1)+2F(n-2)+5F(n-3)
+     */
+    public static int s1(int n) {
+        if (n < 1) {
+            return 0;
+        }
+        if (n == 1 || n == 2) {
+            return n;
         }
 
-
-
-
-        return ans;
+        int[] dp = new int[n + 1];
+        dp[1] = 1;
+        dp[2] = 2;
+        for (int i = 3; i < dp.length; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        return dp[n];
     }
+
+    /**
+     * 拓展1
+     * F(n)=3F(n-1)+2F(n-2)+5F(n-3)
+     */
+    public static int s2(int n) {
+        if (n < 1) {
+            return 0;
+        }
+        if (n == 1 || n == 2) {
+            return n;
+        }
+
+        return s2(n - 1) + s2(n - 2);
+    }
+
+    public static int s3(int n) {
+        if (n < 1) {
+            return 0;
+        }
+        if (n == 1 || n == 2) {
+            return n;
+        }
+        int[][] base = {
+                {1, 1},
+                {1, 0}
+        };
+        int[][] res = matrixPower(base, n - 2);
+        return 2 * res[0][0] + res[1][0];
+    }
+
 
     /**
      * 矩阵乘积
@@ -101,11 +148,35 @@ public class FibonacciProblem {
         for (int i = 0; i < matrix1.length; i++) {
             for (int j = 0; j < matrix2[0].length; j++) {
                 for (int k = 0; k < matrix2.length; k++) {
-                    matrix[i][j] += matrix1[i][k]*matrix2[k][j];
+                    matrix[i][j] += matrix1[i][k] * matrix2[k][j];
                 }
             }
         }
         return matrix;
+    }
+
+
+    /**
+     * 矩阵的N次幂
+     * 时间复杂度O(logN)
+     *
+     * @param matrix
+     * @param p
+     * @return
+     */
+    private static int[][] matrixPower(int[][] matrix, int p) {
+        int[][] res = new int[matrix.length][matrix[0].length];
+        for (int i = 0; i < res.length; i++) {
+            res[i][i] = 1;
+        }
+        int[][] tmp = matrix;
+        for (; p != 0; p >>= 1) {
+            if ((p & 1) != 0) {
+                res = matrixMut(res, tmp);
+            }
+            tmp = matrixMut(tmp, tmp);
+        }
+        return res;
     }
 
 
@@ -118,24 +189,30 @@ public class FibonacciProblem {
         int loops = 50_0000;
         int max = 30;
 
-        int[][] matrix1 ={
-                {1,3},
-                {1,0},
-                {1,2}
+        int[][] matrix1 = {
+                {1, 3},
+                {1, 0},
+                {1, 2}
         };
-        int[][] matrix2 ={
-                {0,0,2},
-                {3,2,0},
+        int[][] matrix2 = {
+                {0, 0, 2},
+                {3, 2, 0},
         };
 
         int[][] ints = matrixMut(matrix1, matrix2);
 
         for (int i = 0; i < loops; i++) {
             int n = generate(max);
-//            int ans1 = f1(n);
-            int ans2 = f2(n);
-            int ans3 = f3(n);
-            if (ans3 != ans2) {
+//            int ans3 = f3(n);
+//            int ans4 = f4(n);
+//            if (ans3 != ans4) {
+//                System.out.println("Oops!");
+//            }
+
+//            int s1 = s1(n);
+            int s2 = s2(n);
+            int s3 =s3(n);
+            if (s3 != s2) {
                 System.out.println("Oops!");
             }
         }
