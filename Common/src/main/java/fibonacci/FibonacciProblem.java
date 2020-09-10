@@ -139,6 +139,41 @@ public class FibonacciProblem {
         return 2 * res[0][0] + res[1][0];
     }
 
+    /**
+     * f(0) = 0
+     * f(1) = 2
+     * f(2) = 2
+     * f(n) = 2f(n-1) + f(n-2)
+     *
+     * @param n
+     * @return
+     */
+    public static int c1(int n) {
+        if (n < 1) {
+            return 0;
+        }
+        if (n < 3) {
+            return 2;
+        }
+        return c1(n - 1) + 2 * c1(n - 2);
+    }
+
+    public static int c2(int n) {
+
+        if (n < 1) {
+            return 0;
+        }
+        if (n < 3) {
+            return 2;
+        }
+        int[][] base = {
+                {1, 1},
+                {2, 0}
+        };
+        int[][] res = matrixPower(base, n - 2);
+        return 2 * res[0][0] + 2 * res[0][1];
+    }
+
 
     /**
      * 矩阵乘积
@@ -211,8 +246,14 @@ public class FibonacciProblem {
 
 //            int s1 = s1(n);
             int s2 = s2(n);
-            int s3 =s3(n);
+            int s3 = s3(n);
             if (s3 != s2) {
+                System.out.println("Oops!");
+            }
+
+            int c1 = c1(n);
+            int c2 = c2(n);
+            if (c1 != c2) {
                 System.out.println("Oops!");
             }
         }
