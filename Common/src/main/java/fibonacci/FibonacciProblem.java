@@ -171,7 +171,7 @@ public class FibonacciProblem {
                 {2, 0}
         };
         int[][] res = matrixPower(base, n - 2);
-        return 2 * res[0][0] + 2 * res[0][1];
+        return 2 * res[0][0] + 2 * res[1][0];
     }
 
 
