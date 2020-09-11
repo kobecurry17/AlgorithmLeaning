@@ -1,4 +1,4 @@
-package unknown;
+package fibonacci;
 
 /**
  * 给定一个数N，想象只有0和1组成，组成的长度为N的字符串
