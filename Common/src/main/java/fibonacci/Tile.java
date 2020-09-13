@@ -1,6 +1,5 @@
 package fibonacci;
 
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 
 /**
  * 在一个2*N 的空间里铺1*2的瓷砖,有多少种铺法

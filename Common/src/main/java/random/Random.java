@@ -1,6 +1,4 @@
-package other;
-
-import java.util.Arrays;
+package random;
 
 /**
  * 给定一个黑盒，可以均等概率生成7个数
