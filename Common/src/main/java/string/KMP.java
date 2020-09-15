@@ -15,27 +15,25 @@ public class KMP {
      * @return
      */
     public static int findFirstIndex(String a, String b) {
-        int ans = -1;
         if (null == b || b.trim().isEmpty() || b.length() > a.length()) {
-            return ans;
+            return -1;
         }
         char[] arrayA = a.toCharArray();
         char[] arrayB = b.toCharArray();
         int[] next = next(arrayB);
-        int index = 0;
-        for (int i = 0; i < a.length() - b.length() + 1;) {
-            while (index < arrayB.length && arrayB[index] == arrayA[i + index]) {
-                index++;
-            }
-            if (index == b.length()) {
-                return i;
+        int x = 0;
+        int y = 0;
+        while (x < arrayA.length && y < arrayB.length) {
+            if (arrayA[x] == arrayB[y]) {
+                x++;
+                y++;
+            } else if (next[y] == -1) {
+                x++;
             } else {
-                index = next[index]+1;
-                i = i + (index>0?index:1);
-                continue;
+                y = next[y];
             }
         }
-        return ans;
+        return y == arrayB.length ? x - y : -1;
     }
 
     /**
@@ -141,14 +139,11 @@ public class KMP {
 
     public static void main(String[] args) {
         int loops = 100_0000;
-        int maxBLength = 5;
-        int maxALength = 50;
+        int maxBLength = 50;
+        int maxALength = 5000;
         for (int i = 0; i < loops; i++) {
             String a = generate(maxALength);
-//            String a = "emmoooyiaakkhmsbouz";
-//            String b = "ooy";
             String b = generate(maxBLength);
-
             if (ans1(a, b) != findFirstIndex(a, b)) {
                 System.out.println(a);
                 System.out.println(b);
@@ -157,5 +152,4 @@ public class KMP {
             }
         }
     }
-
 }
