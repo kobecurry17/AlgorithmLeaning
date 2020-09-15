@@ -9,6 +9,7 @@ import java.util.List;
 @SuppressWarnings("all")
 public class ChildTree {
 
+
     /**
      * 暴力方法
      *
@@ -26,17 +27,20 @@ public class ChildTree {
         if (isSamtValueStrictire(big, small)) {
             return true;
         }
-        return containsTree1(big.left, small) && containsTree1(big.right, small);
+        return containsTree1(big.left, small) || containsTree1(big.right, small);
     }
 
-    private static boolean isSamtValueStrictire(Node a, Node b) {
-        if (null == a && null == b) {
+    private static boolean isSamtValueStrictire(Node head1, Node head2) {
+        if (null == head1 && null == head2) {
             return true;
         }
-        if (null == a || null == b) {
+        if (null == head1 || null == head2) {
             return false;
         }
-        return a.value == b.value && isSamtValueStrictire(a.left, b.left) && isSamtValueStrictire(a.right, b.right);
+        if (head1.value != head2.value) {
+            return false;
+        }
+        return isSamtValueStrictire(head1.left, head2.left) && isSamtValueStrictire(head1.right, head2.right);
     }
 
     private static boolean containsTree2(Node big, Node small) {
@@ -63,6 +67,9 @@ public class ChildTree {
      * @return
      */
     private static int findFirstIndex(List<String> a, List<String> b) {
+        if (a == null || b == null || a.size() < 1 || a.size() < b.size()) {
+            return -1;
+        }
         int[] next = next(b);
         int x = 0;
         int y = 0;
@@ -70,13 +77,13 @@ public class ChildTree {
             if (isEqual(a.get(x), b.get(y))) {
                 x++;
                 y++;
-            } else if (next[y] >= 0) {
-                y = next[y];
-            } else {
+            } else if (next[y] == -1) {
                 x++;
+            } else {
+                y = next[y];
             }
         }
-        return y == next.length ? x - y : -1;
+        return y == b.size() ? x - y : -1;
     }
 
 
@@ -99,11 +106,10 @@ public class ChildTree {
         int[] next = new int[arr.size()];
         next[0] = -1;
         int cur = 0;
-        int i = 1;
+        int i = 2;
         while (i < arr.size()) {
-            if (isEqual(arr.get(i), arr.get(cur))) {
-                i++;
-                cur++;
+            if (isEqual(arr.get(i - 1), arr.get(cur))) {
+                next[i++] = ++cur;
             } else if (cur > 0) {
                 cur = next[cur];
             } else {
@@ -142,35 +148,36 @@ public class ChildTree {
     }
 
     // for test
-    public static Node generateBTS(int maxLevel, int maxValue) {
+    public static Node generateRandomBST(int maxLevel, int maxValue) {
         return generate(1, maxLevel, maxValue);
     }
 
     // for test
-    private static Node generate(int level, int maxLevel, int maxValue) {
-        if (level > maxLevel || Math.random() < 0.1f) {
+    public static Node generate(int level, int maxLevel, int maxValue) {
+        if (level > maxLevel || Math.random() < 0.5) {
             return null;
         }
-        Node node = new Node((int) (Math.random() * maxValue));
-        node.left = generate(level + 1, maxValue, maxValue);
-        node.right = generate(level + 1, maxValue, maxValue);
-        return node;
+        Node head = new Node((int) (Math.random() * maxValue));
+        head.left = generate(level + 1, maxLevel, maxValue);
+        head.right = generate(level + 1, maxLevel, maxValue);
+        return head;
     }
 
     public static void main(String[] args) {
         int loops = 50_0000;
         int bigLevel = 7;
-        int smallLevel = 3;
-        int maxValue = 10;
+        int smallLevel = 4;
+        int maxValue = 5;
+        Node node = new Node(3);
         for (int i = 0; i < loops; i++) {
-            Node a = generateBTS(bigLevel, maxValue);
-            Node b = generateBTS(smallLevel, maxValue);
+            Node a = generateRandomBST(bigLevel, maxValue);
+            Node b = generateRandomBST(smallLevel, maxValue);
             if (containsTree1(a, b) != containsTree2(a, b)) {
-                containsTree1(a, b);
-                containsTree2(a, b);
                 System.out.println("Oops!");
             }
         }
+        System.out.println("Nice");
     }
+
 
 }
