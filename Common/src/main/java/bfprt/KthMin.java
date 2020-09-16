@@ -88,6 +88,7 @@ public class KthMin {
         if (k > arr.length || k == 0) {
             return -1;
         }
+        // 从1~N 上第k小的数
         return process(arr, 0, arr.length - 1, k - 1);
     }
 
@@ -102,6 +103,15 @@ public class KthMin {
         if (L == R) {
             return arr[L];
         }
+        int pivot = arr[(int) (Math.random() * (R - L + 1)) + L];
+        int[] range = partition(arr, L, R, pivot);
+        if (range[0] <= index && range[1] >= index) {
+            return arr[range[0]];
+        } else if (index < range[0]) {
+            return process(arr, L, range[0] - 1, index);
+        } else {
+            return process(arr, range[1] + 1, R, index);
+        }
     }
 
     /**
@@ -112,11 +122,28 @@ public class KthMin {
      * @return
      */
     public static int[] partition(int[] arr, int L, int R, int pivot) {
-        while (true){
 
+        int less = L - 1;
+        int more = R + 1;
+        int cur = L;
+        while (cur < more) {
+            if (arr[cur] < pivot) {
+                swap(arr, cur++, ++less);
+            } else if (arr[cur] > pivot) {
+                swap(arr, cur, --more);
+            } else {
+                cur++;
+            }
         }
+        return new int[]{less + 1, more - 1};
     }
 
+
+    public static void swap(int[] arr, int a, int b) {
+        int tmp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = tmp;
+    }
 
     /**
      * 数组拷贝
@@ -140,7 +167,7 @@ public class KthMin {
         for (int i = 0; i < loops; i++) {
             int[] arr = generate(maxLength, maxValue);
             int k = generate(maxK);
-            if (kthMin1(arr, k) != kthMin2(arr, k)) {
+            if (kthMin3(arr, k) != kthMin2(arr, k)) {
                 System.out.println("Oops!");
             }
         }
