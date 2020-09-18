@@ -1,4 +1,4 @@
-package string;
+package datastruct.kmp;
 
 /**
  * 设定：字符串"123" 有旋转词“123” “231” “312“

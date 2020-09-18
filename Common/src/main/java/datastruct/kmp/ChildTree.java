@@ -1,4 +1,4 @@
-package string;
+package datastruct.kmp;
 
 import java.util.ArrayList;
 import java.util.List;
