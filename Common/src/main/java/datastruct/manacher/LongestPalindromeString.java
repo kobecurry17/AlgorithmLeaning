@@ -32,24 +32,6 @@ public class LongestPalindromeString {
         return max / 2;
     }
 
-    // for test
-    public static int right(String s) {
-        if (s == null || s.length() == 0) {
-            return 0;
-        }
-        char[] str = manacherString(s);
-        int max = 0;
-        for (int i = 0; i < str.length; i++) {
-            int L = i - 1;
-            int R = i + 1;
-            while (L >= 0 && R < str.length && str[L] == str[R]) {
-                L--;
-                R++;
-            }
-            max = Math.max(max, R - L - 1);
-        }
-        return max / 2;
-    }
 
     // for test
     public static String getRandomString(int possibilities, int size) {
@@ -62,7 +44,8 @@ public class LongestPalindromeString {
 
     /**
      * 拓展字符串，每个字符之间补上#
-     *"12132" -> "#1#2#1#3#2#"
+     * "12132" -> "#1#2#1#3#2#"
+     *
      * @param str
      * @return
      */
@@ -76,12 +59,27 @@ public class LongestPalindromeString {
         return res;
     }
 
-    private static int manacher(String str){
+    private static int manacher(String str) {
         if (str == null || str.length() == 0) {
             return 0;
         }
         char[] arr = manacherString(str);
-
+        int[] help = new int[arr.length];
+        int max = 0;
+        int most = -1;
+        int cur = -1;
+        for (int i = 1; i < arr.length; i++) {
+            help[i] = i < most ? Math.min(most - i, help[2 * cur - i]) :1 ;
+            while (i - help[i] >= 0 && i + help[i] < arr.length && arr[i + help[i]] == arr[i - help[i]]) {
+                help[i]++;
+            }
+            max = Math.max(max, help[i]);
+            if (help[i] + i > most) {
+                most = help[i] + i;
+                cur = i;
+            }
+        }
+        return max-1;
     }
 
     public static void main(String[] args) {
@@ -90,9 +88,10 @@ public class LongestPalindromeString {
         int possibilities = 5;
         for (int i = 0; i < loops; i++) {
             String randomString = getRandomString(possibilities, maxLength);
-            if (right(randomString) != longestPalindromeString1(randomString)) {
+            if (manacher(randomString) != longestPalindromeString1(randomString)) {
                 System.out.println("Oops!");
             }
         }
+        System.out.println("Nice");
     }
 }
