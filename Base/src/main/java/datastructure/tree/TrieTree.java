@@ -116,11 +116,34 @@ public class TrieTree {
     /**
      * 前缀树结点
      */
-    @Data
     private static class Node {
         private Map<Character, Node> value;
         private int pass;
         private int end;
+
+        public Map<Character, Node> getValue() {
+            return value;
+        }
+
+        public void setValue(Map<Character, Node> value) {
+            this.value = value;
+        }
+
+        public int getPass() {
+            return pass;
+        }
+
+        public void setPass(int pass) {
+            this.pass = pass;
+        }
+
+        public int getEnd() {
+            return end;
+        }
+
+        public void setEnd(int end) {
+            this.end = end;
+        }
 
         public Node() {
         }
