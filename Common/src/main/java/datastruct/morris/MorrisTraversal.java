@@ -39,7 +39,7 @@ public class MorrisTraversal {
      * @param maxValue
      * @return
      */
-    public static Node generateBST(int maxLevel, int maxValue) {
+    public static Node generateBT(int maxLevel, int maxValue) {
         HashSet<Integer> set = new HashSet();
         return generate(1, maxLevel, maxValue, set);
     }
@@ -160,6 +160,7 @@ public class MorrisTraversal {
     /**
      * 后续比较难
      * 兴趣了解
+     *
      * @param head
      */
     public void morrisPos(Node head) {
@@ -211,6 +212,80 @@ public class MorrisTraversal {
         return pre;
     }
 
+    /**
+     * 判断一颗树是否是搜索二叉树
+     *
+     * @return
+     */
+    public static boolean isBST(Node head) {
+        if (null == head) {
+            return true;
+        }
+        Node cur = head;
+        Node mostRight = null;
+        int min = Integer.MIN_VALUE;
+        while (cur != null) {
+            mostRight = cur.left;
+            if (null != mostRight) {
+                while (mostRight.right != null && mostRight.right != cur) {
+                    mostRight = mostRight.right;
+                }
+                if (mostRight.right == null) {
+                    mostRight.right = cur;
+                    cur = cur.left;
+                    continue;
+                } else {
+                    mostRight.right = null;
+                }
+            }
+            if (cur.value < min) {
+                return false;
+            } else {
+                min = cur.value;
+            }
+            cur = cur.right;
+        }
+        return true;
+    }
+
+
+    /**
+     * 一颗二叉树的最小高度
+     *
+     * @param head
+     * @return
+     */
+    public static int minHeight(Node head) {
+        if (null == head) {
+            return 0;
+        }
+        Node cur = head;
+        Node mostRight = null;
+        int curHeight = 0;
+        int minHeight = Integer.MAX_VALUE;
+        int now = 0;
+        int min = Integer.MIN_VALUE;
+        while (cur != null) {
+            now = curHeight;
+            mostRight = cur.left;
+            if (null != mostRight) {
+                while (mostRight.right != null && mostRight.right != cur) {
+                    now++;
+                    mostRight = mostRight.right;
+                }
+                if (mostRight.right == null) {
+                    minHeight = Math.min(now, minHeight);
+                    mostRight.right = cur;
+                    cur = cur.left;
+                    continue;
+                } else {
+                    now = curHeight;
+                    mostRight.right = null;
+                }
+            }
+            cur = cur.right;
+        }
+    }
 
     public static void main(String[] args) {
         Node head = new Node(1);
@@ -220,7 +295,6 @@ public class MorrisTraversal {
         head.left.right = new Node(5);
         head.right.left = new Node(6);
         head.right.right = new Node(7);
-        morrisIn(head);
-        morrisMid(head);
+        System.out.println(isBST(head));
     }
 }
