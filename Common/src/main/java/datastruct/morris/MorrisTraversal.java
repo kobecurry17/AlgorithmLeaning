@@ -285,6 +285,7 @@ public class MorrisTraversal {
             }
             cur = cur.right;
         }
+        return 0;
     }
 
     public static void main(String[] args) {
