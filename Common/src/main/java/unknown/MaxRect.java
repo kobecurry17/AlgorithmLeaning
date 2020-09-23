@@ -3,6 +3,7 @@ package unknown;
 /**
  * 矩阵中，边框都是1的正方形最大是多少
  */
+@SuppressWarnings("all")
 public class MaxRect {
 
     /**
@@ -20,17 +21,20 @@ public class MaxRect {
         int max = Integer.MIN_VALUE;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                if(matrix[i][j]==1){
-                    int maybe = Math.min(col[i][j],row[i][j]);
-                    for (int k = maybe; k >0 ; k--) {
-                        if(col[i+k-1][j]>=maybe&&row[])
+                if (matrix[i][j] == 1) {
+                    int maybe = Math.min(col[i][j], row[i][j]);
+                    if (maybe > max) {
+                        for (int k = maybe; k > 0; k--) {
+                            if (col[i][j + k - 1] >= maybe && row[i + k - 1][j + k - 1] >= maybe) {
+                                max = Math.max(maybe, max);
+                                break;
+                            }
+                        }
                     }
                 }
             }
         }
-
-
-        return 0;
+        return max;
     }
 
     /**
@@ -68,6 +72,15 @@ public class MaxRect {
             }
         }
         return res;
+
+    }
+
+
+    public static void main(String[] args) {
+        int[][] matrix = {{1, 0, 0, 1},{1,1,1,1},{0,1,1,0}};
+        System.out.println(maxRect(matrix));
+        int[][] matrix1 = {{1, 1, 1, 1},{1,0,1,1},{1,1,1,1},{1,1,1,1,}};
+        System.out.println(maxRect(matrix1));
 
     }
 
