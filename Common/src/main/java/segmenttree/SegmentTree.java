@@ -41,7 +41,7 @@ public class SegmentTree {
          */
         public void build(int l, int r, int rt) {
             if(l==r){
-                sum[rt] = sum[l]+
+                sum[rt] = sum[l];Tra
             }
             int mid = (l + r) >> 1;
 
