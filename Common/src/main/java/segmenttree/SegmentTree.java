@@ -69,11 +69,11 @@ public class SegmentTree {
 
             if (L <= l && r <= R) {
                 sum[rt] += (r - l + 1) * num;
-                lazy[rt] += 7;
+                lazy[rt] += num;
                 return;
             }
 
-            int mid = (l + r) << 1;
+            int mid = (l + r) >> 1;
             // 把之前的lazy信息下发
             // mid - l +1 左孩子的结点树
             // r - mid +1 又孩子的结点树
@@ -90,19 +90,20 @@ public class SegmentTree {
         private void pushDown(int rt, int lSzie, int rSize) {
             if (update[rt]) {
                 update[rt << 1] = true;
+                update[rt << 1 | 1] = true;
                 change[rt << 1] = change[rt];
-                sum[rt << 1] += lSzie * change[rt];
+                change[rt << 1 | 1] = change[rt];
                 lazy[rt << 1] = 0;
-                update[(rt << 1) | 1] = true;
-                change[(rt << 1) | 1] = change[rt];
-                sum[(rt << 1) | 1] += rSize * change[rt];
-                lazy[(rt << 1) | 1] = 0;
+                lazy[rt << 1 | 1] = 0;
+                sum[rt << 1] = change[rt] * lSzie;
+                sum[rt << 1 | 1] = change[rt] * rSize;
+                update[rt] = false;
             }
             // 把父节点的lazy信息下发
             if (lazy[rt] != 0) {
-                lazy[rt << 1] = lazy[rt];
+                lazy[rt << 1] += lazy[rt];
                 sum[rt << 1] += lazy[rt] * lSzie;
-                lazy[(rt << 1) | 1] = lazy[rt];
+                lazy[(rt << 1) | 1] += lazy[rt];
                 sum[(rt << 1) | 1] += lazy[rt] * rSize;
                 lazy[rt] = 0;
             }
