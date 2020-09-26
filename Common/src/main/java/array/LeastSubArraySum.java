@@ -112,7 +112,7 @@ public class LeastSubArraySum {
         int maxValue = 10;
         int maxSize = 10;
         int minValue = -10;
-        int maxSum = 30;
+        int maxSum = 10;
         for (int i = 0; i < loops; i++) {
             int[] arr = generate(maxSize, maxValue, minValue);
             int sum = generate(maxSum);
