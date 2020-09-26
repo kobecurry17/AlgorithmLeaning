@@ -9,7 +9,7 @@ package matrix;
  * 7 8 9
  * 输出：1 2 3 5 4 7 8 6 9
  */
-public class ZigZag {
+public class ZigZagPrint {
 
 
     /**
@@ -26,12 +26,12 @@ public class ZigZag {
         boolean asc = false;
         for (int i = 0; i < N; i++) {
             print(matrix, i1, j1, i2, j2, asc);
-            if (j2 < matrix[0].length-1) {
+            if (j2 < matrix[0].length - 1) {
                 j2++;
             } else {
                 i2++;
             }
-            if (i1 < matrix.length-1) {
+            if (i1 < matrix.length - 1) {
                 i1++;
             } else {
                 j1++;
@@ -64,26 +64,8 @@ public class ZigZag {
         }
     }
 
-    // for test
-    public static int[] generate(int size, int maxValue) {
-        int[] arr = new int[size];
-        for (int i = 0; i < size; i++) {
-            arr[i] = (int) (Math.random() * maxValue) + 1;
-        }
-        return arr;
-    }
-
-    // for testing
-    public static int[][] generateMatrix(int col, int row, int max) {
-        int[][] arr = new int[row][col];
-        for (int i = 0; i < row; i++) {
-            arr[i] = generate(col, max);
-        }
-        return arr;
-    }
-
     public static void main(String[] args) {
-        int[][] matrix = {{1, 3, 5,7}, {2, 4, 6,10}, {7, 8, 9,11}};
+        int[][] matrix = {{1, 3, 5, 7}, {2, 4, 6, 10}, {7, 8, 9, 11}};
         print(matrix);
     }
 }
