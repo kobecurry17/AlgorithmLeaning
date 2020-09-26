@@ -8,9 +8,9 @@ import java.util.List;
 /**
  * 给定一个数组arr，有正数有负数有0，问：累加和为sum的最短子数组多长
  * 优化思路：
- *  根据题意，这题用前缀和数组进行预处理，但时间复杂度认为O(n2),不是太理想
- *  因为累加和的复杂度已经是O(N) 所以这一步不可能优化，那么可能的优化就在于如何找到长度最小的累加和为sum的子数组
- *  将找到的步骤进行优化就可以提高效率，降低时间复杂度
+ * 根据题意，这题用前缀和数组进行预处理，但时间复杂度认为O(n2),不是太理想
+ * 因为累加和的复杂度已经是O(N) 所以这一步不可能优化，那么可能的优化就在于如何找到长度最小的累加和为sum的子数组
+ * 将找到的步骤进行优化就可以提高效率，降低时间复杂度
  */
 @SuppressWarnings("all")
 public class LeastSubArraySum {
@@ -61,7 +61,7 @@ public class LeastSubArraySum {
             add(-1);
         }});
         help[0] = arr[0];
-        add(map,help[0],0);
+        add(map, help[0], 0);
         for (int i = 1; i < arr.length; i++) {
             help[i] = arr[i] + help[i - 1];
             add(map, help[i], i);
@@ -94,10 +94,10 @@ public class LeastSubArraySum {
     }
 
     // for test
-    public static int[] generate(int size, int maxValue) {
+    public static int[] generate(int size, int maxValue, int minValue) {
         int[] arr = new int[size];
         for (int i = 0; i < size; i++) {
-            arr[i] = (int) (Math.random() * maxValue) + 1;
+            arr[i] = (int) (Math.random() * (maxValue - minValue)) + minValue;
         }
         return arr;
     }
@@ -111,12 +111,11 @@ public class LeastSubArraySum {
         int loops = 50_0000;
         int maxValue = 10;
         int maxSize = 10;
+        int minValue = -10;
         int maxSum = 30;
         for (int i = 0; i < loops; i++) {
-            int[] arr = generate(maxSize, maxValue);
+            int[] arr = generate(maxSize, maxValue, minValue);
             int sum = generate(maxSum);
-//            int[] arr = {8, 8, 1, 7, 6, 5, 3, 7, 7, 6};
-//            int sum = 16;
             int i1 = leastSubArraySum1(arr, sum);
             int i2 = leastSubArraySum2(arr, sum);
             if (i1 != i2) {
