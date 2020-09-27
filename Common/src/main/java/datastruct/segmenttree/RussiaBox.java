@@ -1,4 +1,4 @@
-package segmenttree;
+package datastruct.segmenttree;
 
 import java.util.ArrayList;
 import java.util.HashMap;

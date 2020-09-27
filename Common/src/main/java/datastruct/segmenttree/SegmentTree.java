@@ -1,4 +1,4 @@
-package segmenttree;
+package datastruct.segmenttree;
 
 /**
  * 线段树

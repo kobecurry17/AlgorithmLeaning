@@ -74,7 +74,7 @@ public class IslandSize {
      * @return
      */
     public static int ans2(int[][] matrix){
-
+        return 0;
     }
 
     public static void main(String[] args) {
