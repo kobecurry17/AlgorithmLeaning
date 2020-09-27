@@ -3,7 +3,7 @@ package sbTree;
 /**
  * 搜索二叉树
  */
-public class BaseStandardTree {
+public class BaseBinarySearchTree {
 
     public Node root;
 
