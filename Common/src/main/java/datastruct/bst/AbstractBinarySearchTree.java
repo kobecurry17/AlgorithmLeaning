@@ -76,6 +76,15 @@ public class AbstractBinarySearchTree {
         return null;
     }
 
+    public Node delete(int element) {
+        Node deleteNode = search(element);
+        if (deleteNode != null) {
+            return delete(deleteNode);
+        } else {
+            return null;
+        }
+    }
+
     protected Node getMinimum(Node node) {
         while (node.left != null) {
             node = node.left;
