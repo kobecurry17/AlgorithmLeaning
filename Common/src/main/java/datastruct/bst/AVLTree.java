@@ -53,15 +53,21 @@ public class AVLTree extends AbstractSelfBalancingBinarySearchTree {
             int nodeBalance = rightHeight - leftHeight;
             // rebalance (-2 means left subtree outgrow, 2 means right subtree outgrow)
             if (nodeBalance == 2) {
+                // RR 或 RL && RR型
                 if (node.right.right != null && ((AVLNode) node.right.right).height == leftHeight + 1) {
                     node = (AVLNode) avlRotateLeft(node);
-                } else {
+                }
+                // RL 型
+                else {
                     node = (AVLNode) doubleRotateRightLeft(node);
                 }
             } else if (nodeBalance == -2) {
+                // LL 或 LL && LR型
                 if (node.left.left != null && ((AVLNode) node.left.left).height == rightHeight + 1) {
                     node = (AVLNode) avlRotateRight(node);
-                } else {
+                }
+                // LR 型
+                else {
                     node = (AVLNode) doubleRotateLeftRight(node);
                 }
             } else {
