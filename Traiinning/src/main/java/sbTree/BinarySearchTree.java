@@ -2,10 +2,6 @@ package sbTree;
 
 public class BinarySearchTree extends BaseBinarySearchTree {
 
-    public Node rotateLeft(Node node){
-        Node temp = node.right;
-        temp.p
-    }
 
 
     public Node leftRotation(Node node) {
