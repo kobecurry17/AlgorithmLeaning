@@ -5,7 +5,6 @@ package class2;
  * 给定一个正整数M，请构造出一个长度为M的数组arr
  * 要求对任意的i,j,k三个位置,如果i<j<k,都有 arr[i] + arr[k] != 2 * arr[k]
  * </p>
- * TODO:再听听讲解
  */
 public class ConstructArr {
 
@@ -24,8 +23,18 @@ public class ConstructArr {
         return true;
     }
 
-    // 生成长度为size的达标数组
-    // 达标：对于任意的 i<k<j，满足   [i] + [j]  != [k] * 2
+    /**
+     * 一开始的时候，假设只有3个数，我们可以很容易的举证出[1，3，5]
+     * 现在我们在更大的范围上考虑这件事，如何把它变成长度为6的数。
+     * 由arr[i] + arr[k] != 2 * arr[j] => (arr[i] + 1) + (arr[k] + 1) != 2 * (arr[j] + 1)
+     * 因此得到新数组[ 1 , 9 , 3 , 2 , 10 , 6 ]
+     * 新数组中左侧都是奇数，右侧都是偶数
+     * 左侧加右侧不可能是任意一个数的两倍
+     * 而左侧和右侧都能单独论证，他们各自满足由arr[i]+arr[k]!=2*arr[j] 因此结论成立
+     *
+     * @param size
+     * @return
+     */
     public static int[] construct(int size) {
         if (size == 1) {
             return new int[]{1};
