@@ -1,12 +1,15 @@
 package class3;
 
-import sun.font.FontRunIterator;
-
-import java.util.*;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 /**
  * 如果给你一个二维数组，每一个值表示这一块底薪的高度
  * 求整块地形能装下多少水
+ * <p>
+ * 应用场景：把二维矩阵想象成一张地图，计算这个城市的降水量，或者选择下水道
+ * </p>
+ * <p>
  * 例如:
  * arr = {
  * {1, 1, 0, 1, 1},
