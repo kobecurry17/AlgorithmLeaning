@@ -41,17 +41,22 @@ public class BagProblem {
         return next1 + (next2 == -1 ? 0 : next2);
     }
 
-    public static int methodSize(int[] v, int W) {
-        int[][] dp = new int[v.length + 1][W + 1];
-        for (int i = 0; i < W + 1; i++) {
-            dp[v.length][i] = 1;
+    /**
+     * 动态规划
+     *
+     * @param v
+     * @param W
+     * @return
+     */
+    public static int dpWays(int[] v, int W) {
+        int N = v.length;
+        int[][] dp = new int[N + 1][W + 1];
+        for (int i = 0; i <= W; i++) {
+            dp[N][i] = 1;
         }
-        for (int i = v.length - 1; i >= 0; i--) {
-            for (int j = 1; j < W + 1; j++) {
-                dp[i][j] = dp[i + 1][j];
-                if (v[i] < j) {
-                    dp[i][j] += dp[i + 1][j - v[i]];
-                }
+        for (int i = N - 1; i >= 0; i--) {
+            for (int j = 0; j < W + 1; j++) {
+                dp[i][j] = dp[i + 1][j] + (j - v[i] >= 0 ? dp[i + 1][j - v[i]] : 0);
             }
         }
         return dp[0][W];
@@ -62,7 +67,7 @@ public class BagProblem {
         int size = (int) (Math.random() * maxSize);
         int[] arr = new int[size];
         for (int i = 0; i < size; i++) {
-            arr[i] = (int) (Math.random() * max)+1;
+            arr[i] = (int) (Math.random() * max) + 1;
         }
         return arr;
     }
@@ -81,7 +86,7 @@ public class BagProblem {
             int[] v = generate(maxLength, 10);
 //            int[] v = {1, 3, 5};
 //            int k = 7;
-            if (ways1(v, k) != methodSize(v, k)) {
+            if (ways1(v, k) != dpWays(v, k)) {
                 System.out.println("Oops!");
             }
         }
