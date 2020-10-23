@@ -100,8 +100,8 @@ public class MaxSubsequenceMatrixSum {
     public static void main(String[] args) {
         int loops = 50_0000;
         for (int i = 0; i < loops; i++) {
-            int width = (int) (Math.random() * 30) + 1;
-            int length = (int) (Math.random() * 20) + 1;
+            int width = (int) (Math.random() * 15) + 1;
+            int length = (int) (Math.random() * 15) + 1;
             int[][] matrix = generate(length, width);
             if (right(matrix) != maxSum(matrix)) {
                 System.out.println("Oops!");
