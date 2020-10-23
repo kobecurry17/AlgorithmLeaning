@@ -51,7 +51,7 @@ public class MaxSubsequenceMatrixSum {
 
     private static int maxSum(int[][] matrix) {
         int max = Integer.MIN_VALUE;
-        for (int i = 0; i < matrix[0].length - 1; i++) {
+        for (int i = 0; i < matrix[0].length ; i++) {
             for (int j = i; j < matrix[0].length; j++) {
                 max = Math.max(max, process(matrix, i, j));
             }
@@ -63,8 +63,8 @@ public class MaxSubsequenceMatrixSum {
     private static int process(int[][] matrix, int top, int bottom) {
         int max = Integer.MIN_VALUE;
         int[] help = new int[matrix.length];
-        for (int i = top; i < matrix[0].length; i++) {
-            for (int j = 0; j <= bottom - top; j++) {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = top; j <= bottom ; j++) {
                 help[i] += matrix[i][j];
             }
         }
@@ -79,25 +79,30 @@ public class MaxSubsequenceMatrixSum {
      * @return
      */
     private static int maxSum(int[] help) {
-        int min = Integer.MAX_VALUE;
-        int max = 0;
+        int min = 0;
+        int maxNum = Integer.MIN_VALUE;
+        int max = Integer.MIN_VALUE;
         int sum = 0;
         for (int i = 0; i < help.length; i++) {
             sum += help[i];
             min = Math.min(min, sum);
             max = Math.max(max, sum - min);
+            maxNum = Math.max(maxNum, help[i]);
         }
-
+        max = Math.max(max, sum - min);
+        if (max <= 0) {
+            return maxNum;
+        }
         return max;
     }
 
 
     public static void main(String[] args) {
         int loops = 50_0000;
-        int length = 2;
-        int width = 2;
-        int[][] matrix = generate(length, width);
         for (int i = 0; i < loops; i++) {
+            int width = (int) (Math.random() * 30) + 1;
+            int length = (int) (Math.random() * 20) + 1;
+            int[][] matrix = generate(length, width);
             if (right(matrix) != maxSum(matrix)) {
                 System.out.println("Oops!");
                 right(matrix);
@@ -106,4 +111,6 @@ public class MaxSubsequenceMatrixSum {
         }
         System.out.println("nice");
     }
+
+
 }
