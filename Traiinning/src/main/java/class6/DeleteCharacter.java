@@ -99,12 +99,93 @@ public class DeleteCharacter {
 
     /**
      * 思路2:
-     * 求出str1的所有子串，
+     * 求出str1的所有满足条件子串，计算str2->str1的编辑距离
      */
+    public static int way2(String str1, String str2) {
+        if ("".equals(str1)) {
+            return str2.length();
+        }
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < str1.length(); i++) {
+            for (int j = str1.length(); j > i; j--) {
+                String s = str1.substring(i, j);
+                min = Math.min(min, distance(s.toCharArray(), str2.toCharArray()));
+            }
+        }
+        return min;
+    }
+
+    /**
+     * str2通过删除字符串变成str1
+     * 最少需要删几个字符串
+     * 如果无法删成目标字符串，则返回-1
+     *
+     * @param str1
+     * @param str2
+     * @return
+     */
+    private static int distance(char[] str1, char[] str2) {
+        int N = str1.length;
+        int M = str2.length;
+        int[][] dp = new int[N][M];
+        dp[0][0] = str1[0] == str2[0] ? 0 : Integer.MAX_VALUE;
+        for (int i = 1; i < N; i++) {
+            dp[i][0] = Integer.MAX_VALUE;
+        }
+        for (int i = 1; i < M; i++) {
+            dp[0][i] = dp[0][i - 1] == Integer.MAX_VALUE ? str2[i] == str1[0] ? i : Integer.MAX_VALUE : dp[0][i - 1] + 1;
+        }
+
+        for (int i = 1; i < N; i++) {
+            for (int j = i; j < M; j++) {
+                dp[i][j] = Integer.MAX_VALUE;
+
+                // 我是被删的
+                if (dp[i][j - 1] != Integer.MAX_VALUE) {
+                    dp[i][j] = dp[i][j - 1] + 1;
+                }
+                // 我是留下来的最后一位
+                if (str1[i] == str2[j]) {
+                    dp[i][j] = Math.min(dp[i][j], dp[i - 1][j - 1]);
+                }
+            }
+        }
+        return dp[N - 1][M - 1];
+    }
+
 
     public static void main(String[] args) {
         String s = "abcdes";
-        System.out.println(way1("aab", "asdsadeb"));
-
+        int randSize = 10;
+        int loops = 50_0000;
+        for (int i = 0; i < loops; i++) {
+            String s1 = randomString("", (Math.random() * randSize));
+            String s2 = randomString(s1, (Math.random() * randSize));
+            if (way1(s1, s2) != way2(s1, s2)) {
+                System.out.println("Oops");
+            }
+        }
+        System.out.println("Nice");
     }
+
+    /**
+     * forTesting
+     */
+    private static String randomString(String s, double v) {
+        StringBuilder sb = new StringBuilder();
+        append(sb, 5);
+        for (int i = 0; i < s.length(); i++) {
+            sb.append(s.charAt(i));
+            append(sb, 3);
+        }
+        return sb.toString();
+    }
+
+    public static void append(StringBuilder sb, int size) {
+        size = (int) (Math.random() * size);
+        for (int i = 0; i < size; i++) {
+            sb.append((char) ('a' + ((int) (Math.random() * 26))));
+        }
+    }
+
 }
