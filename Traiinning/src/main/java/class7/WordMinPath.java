@@ -149,8 +149,8 @@ public class WordMinPath {
 
 
     public static void main(String[] args) {
-        List<String> list = Arrays.asList("cab", "acc", "cbc", "ccc", "cac", "aab", "abb");
-        String[] arr = new String[]{"cab", "acc", "cbc", "ccc", "cac", "aab", "abb"};
+        List<String> list = Arrays.asList("cab", "acc", "cbc", "ccc", "cac", "aab", "abb","abc");
+        String[] arr = new String[]{"cab", "acc", "cbc", "ccc", "cac", "aab", "abb","abc"};
         String from = "abc";
         String to = "cab";
         System.out.println(wordMinPath(from, to, list));
