@@ -48,15 +48,25 @@ public class JumpGame {
         if (arr.length == 1) {
             return 1;
         }
-        int next = arr[0];
-        int pre = 0;
+        /**
+         * 从0->i 最少需要几步
+         */
+        int[] dp = new int[arr.length + 1];
+        dp[0] = 0;
+        int pre = arr[0];
+        int far = arr[0];
         int step = 1;
-        for (int i = 0; i < arr.length; i++) {
+        for (int i = 1; i < arr.length; i++) {
             if (i > pre) {
-                pre = next;
+                pre = far;
+                far = i + arr[i];
                 step++;
+            } else {
+                far = Math.max(far, i + arr[i]);
             }
-            next = Math.max(next, i + arr[i]);
+        }
+        if (pre < arr.length) {
+            step++;
         }
         return step;
     }
@@ -89,7 +99,7 @@ public class JumpGame {
 
 
         int loops = 50_0000;
-        int maxLength = 10;
+        int maxLength = 30;
         for (int i = 0; i < loops; i++) {
             int[] arr = generate(maxLength, 10);
             if (jumpTimes2(arr) != jumpTimes3(arr)) {
