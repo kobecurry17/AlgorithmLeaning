@@ -7,6 +7,7 @@ import java.util.HashSet;
 /**
  * 给定一个正整数数组
  * 返回能否将这个数组分成4个相等的部分，切分点的值不看
+ * tip: 如果是正整数，可以在O(N)内实现
  */
 public class SplitFourPart {
 
