@@ -18,16 +18,12 @@ public class SplitFourPart {
      * @param arr
      * @return
      */
-    public static boolean isSplitFourPart1(int arr[]) {
+    public static boolean canSplitFourPart(int arr[]) {
         if (arr.length < 7) {
             return false;
         }
         // 求出arr的累加和数组
-        int[] sum = new int[arr.length];
-        sum[0] = arr[0];
-        for (int i = 1; i < arr.length; i++) {
-            sum[i] = sum[i - 1] + arr[i];
-        }
+        int[] sum = prefixSum(arr);
         HashMap<Integer, ArrayList<Integer>> map = buildMap(sum);
         for (int i = 0; i < arr.length; i++) {
             int[] sec = findNext(sum, sum[i], i + 1, 2, map);
@@ -44,6 +40,15 @@ public class SplitFourPart {
             }
         }
         return false;
+    }
+
+    public static int[] prefixSum(int[] arr) {
+        int[] sum = new int[arr.length];
+        sum[0] = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            sum[i] = sum[i - 1] + arr[i];
+        }
+        return sum;
     }
 
     private static HashMap<Integer, ArrayList<Integer>> buildMap(int[] sum) {
@@ -146,7 +151,7 @@ public class SplitFourPart {
         int maxLength = 30;
         for (int i = 0; i < loops; i++) {
             int[] arr = generate(maxLength, 30);
-            if (isSplitFourPart1(arr)!=canSplits1(arr)) {
+            if (canSplitFourPart(arr) != canSplits1(arr)) {
                 print(arr);
             }
         }
