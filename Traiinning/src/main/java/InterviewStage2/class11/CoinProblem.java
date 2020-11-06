@@ -1,7 +1,5 @@
 package InterviewStage2.class11;
 
-import java.util.Arrays;
-
 /**
  * <p>
  * 硬币问题
