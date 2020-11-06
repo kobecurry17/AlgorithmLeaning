@@ -62,24 +62,25 @@ public class CoinProblem {
     /**
      * 纪念币
      *
-     * @param arr2
+     * @param arr
      * @return
      */
-    private static int[][] specialDP(int[] arr2) {
+    private static int[][] specialDP(int[] arr) {
         int sum = 0;
-        for (int i = 0; i < arr2.length; i++) {
-            sum += arr2[i];
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
         }
-        int[][] dp = new int[arr2.length + 1][sum + 1];
-        for (int i = 0; i <= arr2.length; i++) {
+        // dp[i][j] 表示[0...i]纪念币凑出 j 元有多少种方式
+        int[][] dp = new int[arr.length + 1][sum + 1];
+        for (int i = 0; i <= arr.length; i++) {
             dp[i][0] = 1;
         }
 
         for (int i = 1; i < dp.length; i++) {
             for (int j = 1; j < dp[0].length; j++) {
                 dp[i][j] = dp[i - 1][j];
-                if (j - arr2[i - 1] > 0) {
-                    dp[i][j] += dp[i - 1][j - arr2[i - 1]];
+                if (j - arr[i - 1] >= 0) {
+                    dp[i][j] += dp[i - 1][j - arr[i - 1]];
                 }
             }
         }
@@ -90,24 +91,25 @@ public class CoinProblem {
     /**
      * 普通币
      *
-     * @param arr1
+     * @param arr
      * @param m
      * @return
      */
-    private static int[][] commonDP(int[] arr1, int m) {
-        int[][] dp = new int[arr1.length + 1][m + 1];
-        for (int i = 0; i < arr1.length; i++) {
+    private static int[][] commonDP(int[] arr, int m) {
+        int[][] dp = new int[arr.length + 1][m + 1];
+        for (int i = 0; i <= arr.length; i++) {
             dp[i][0] = 1;
         }
-        for (int i = 1; i < dp.length; i++) {
+        for (int j = 0; j <= m; j++) {
+            dp[1][j] = j % arr[0] == 0 ? 1 : 0;
+        }
+
+        for (int i = 2; i < dp.length; i++) {
             for (int j = 1; j < dp[0].length; j++) {
-                if (arr1[i - 1] == j) {
-                    dp[i][j]++;
-                }
-                int base = arr1[i - 1];
-                while (base <= m && j - base > 0) {
+                int base = 0;
+                while (base <= j) {
                     dp[i][j] += dp[i - 1][j - base];
-                    base += arr1[i - 1];
+                    base += arr[i - 1];
                 }
             }
         }
