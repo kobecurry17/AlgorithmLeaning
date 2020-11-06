@@ -6,6 +6,7 @@ package InterviewStage2.class11;
  * 问：一共写下了多少个1
  * </p>
  */
+@SuppressWarnings("all")
 public class Print1Size {
 
 
@@ -21,46 +22,54 @@ public class Print1Size {
         return size;
     }
 
-    /**
-     * 理清所有可能性再开始写！
-     * @param N
-     * @return
-     */
-    public static int oneSize2(int N) {
-        int tenPower = 1;
-        int num = N;
-        int cur = 0;
-        while (num > 0) {
-            tenPower *= 10;
-            num /= 10;
+
+    public static int oneSize3(int num) {
+        if (num == 0) {
+            return 0;
         }
-        int ans = 0;
-        // 前面的数对当前的数的影响
-        int prefix = 0;
-        num = N;
-        while (tenPower > 0) {
-            ans += prefix * tenPower;
-            cur = num / tenPower;
-            if (cur == 1) {
-                ans += num % tenPower + 1;
-            } else if (cur != 0) {
-                ans += tenPower / 10 + 1;
-            }
-            prefix += prefix * 10 + cur;
-            num = N % tenPower;
-            tenPower /= 10;
+        // num -> 13625
+        // len = 5位数
+        int len = getLength(num);
+        if (len == 1) {
+            return 1;
         }
-        return ans;
+        // num 13625
+        // tmp1 10000
+        // num 7872328738273
+        // tmp1 1000000000000
+        int temp1 = power(len - 1);
+        // num最高位 num / tmp1
+        int first = num / temp1;
+        // 最高1 N % tmp1 + 1
+        // 最高位first tmp1
+        int firstSize = first == 1 ? num % temp1 + 1 : temp1;
+        // 除去最高位之外，剩下1的数量
+        // 最高位1 10(k-2次方) * (k-1) * 1
+        // 最高位first 10(k-2次方) * (k-1) * first
+        int otherSize = first * (temp1 / 10) * (len - 1);
+        return firstSize + otherSize + oneSize3(num % temp1);
     }
 
+    private static int power(int len) {
+        return (int) Math.pow(10, len);
+    }
+
+    private static int getLength(int num) {
+        int len = 0;
+        while (num != 0) {
+            len++;
+            num /= 10;
+        }
+        return len;
+    }
 
     public static void main(String[] args) {
         int loops = 50_0000;
-        int maxLength = 30;
         for (int i = 1; i < loops; i++) {
-            if(oneSize1(i)!=oneSize2(i)){
+            if (oneSize1(i) != oneSize3(i)) {
                 System.out.println(i);
             }
         }
+        System.out.println("Nice");
     }
 }
