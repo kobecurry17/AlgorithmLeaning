@@ -4,12 +4,12 @@ package InterviewStage2.class13;
 /**
  * <p>
  * 给定一个矩阵matrix,在给定一个k值
- * 返回累加和小于等于k，但是离k最近的子数组累加和
+ * 返回子矩阵最大累加和
  * </p>
  * 收获:在写动态规划之前，应该提前理清所有边界情况，再动手。
  */
 @SuppressWarnings("all")
-public class MatrixSumLessThanK {
+public class MatrixSum {
 
 
     /**
