@@ -30,19 +30,19 @@ public class MaxSumInSubArray {
     /**
      * 求一个数组上最大的累加和
      *
-     * @param help
+     * @param arr
      * @return
      */
-    private static int maxSum(int[] help) {
+    private static int maxSum(int[] arr) {
         int min = 0;
         int maxNum = Integer.MIN_VALUE;
         int max = Integer.MIN_VALUE;
         int sum = 0;
-        for (int i = 0; i < help.length; i++) {
-            sum += help[i];
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
             min = Math.min(min, sum);
             max = Math.max(max, sum - min);
-            maxNum = Math.max(maxNum, help[i]);
+            maxNum = Math.max(maxNum, arr[i]);
         }
         max = Math.max(max, sum - min);
         if (max <= 0) {
