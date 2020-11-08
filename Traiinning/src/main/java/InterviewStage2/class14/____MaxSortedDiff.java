@@ -8,7 +8,7 @@ import java.util.Arrays;
  * 相邻数之间的最大差值来自3,7 返回4
  */
 @SuppressWarnings("all")
-public class MaxSortedDiff {
+public class ____MaxSortedDiff {
 
 
     public static int maxDiff(int[] arr) {
