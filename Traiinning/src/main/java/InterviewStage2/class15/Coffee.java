@@ -9,17 +9,14 @@ import java.util.PriorityQueue;
  * 有M个人（无差别），求每个人最早获取咖啡的时间
  * 目标是所有人获取咖啡的实际都尽量早
  * </p>
- * TODO:确认题目
  */
 public class Coffee {
 
     public static class Machine {
-        int peopleIndex;
         int machineIndex;
         int timeLine;
 
-        public Machine(int peopleIndex, int machineIndex, int timeLine) {
-            this.peopleIndex = peopleIndex;
+        public Machine(int machineIndex, int timeLine) {
             this.machineIndex = machineIndex;
             this.timeLine = timeLine;
         }
@@ -39,9 +36,47 @@ public class Coffee {
         int[] ans = new int[peopleSize];
         PriorityQueue<Machine> heap = new PriorityQueue(new MachineComparator());
         for (int i = 0; i < machine.length; i++) {
-
+            heap.add(new Machine(i, machine[i]));
         }
-        return new int[0];
+        int index = 0;
+        while (!heap.isEmpty() && index < peopleSize) {
+            Machine coffee = heap.poll();
+            ans[index++] = coffee.timeLine;
+            coffee.timeLine = coffee.timeLine + machine[coffee.machineIndex];
+            heap.add(coffee);
+        }
+        return ans;
+    }
+
+    // for test
+    public static int[] generate(int size, int maxValue) {
+        int[] arr = new int[size];
+        for (int i = 0; i < size; i++) {
+            arr[i] = (int) (Math.random() * maxValue) + 1;
+        }
+        return arr;
+    }
+
+    // for test
+    public static void print(int[] arr) {
+        System.out.print("{");
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + ",");
+        }
+        System.out.print("\b}");
+        System.out.print("\n==================\n");
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Test begin ....");
+        int loops = 50_0000;
+        int maxValue = 50;
+        int maxSize = 10;
+        for (int i = 0; i < loops; i++) {
+            int[] arr = generate(maxSize, maxValue);
+            print(coffee(arr, 100));
+        }
+        System.out.println("Nice");
     }
 
 
