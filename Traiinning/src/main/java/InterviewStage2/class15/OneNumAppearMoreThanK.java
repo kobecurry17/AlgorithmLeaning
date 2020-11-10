@@ -4,9 +4,11 @@ import java.util.HashMap;
 
 /**
  * 给定一个数组arr,如果某个数出现次数超过了数组长度的一半,打印这个数,输入没有不打印
- *  * <p>
- *  * 给定一个数组arr和整数k，arr长度为N,如果有某些数出现次数超过了N/K
- *  * 打印这些数,如果没有不打印
+ * <p>
+ * 给定一个数组arr和整数k，arr长度为N,如果有某些数出现次数超过了N/K
+ * 打印这些数,如果没有不打印
+ * </p>
+ * 你有一台机器，判断两个信息是否相等，现在给你一堆选票，判断哪个选票占有率大于50%
  */
 @SuppressWarnings("all")
 public class OneNumAppearMoreThanK {
@@ -130,7 +132,6 @@ public class OneNumAppearMoreThanK {
     }
 
 
-
     // for testing
     public static int[] generate(int size, int max) {
         int[] arr = new int[size];
@@ -164,7 +165,7 @@ public class OneNumAppearMoreThanK {
         }
         System.out.println("Nice");
 
-        int[] arr = { 1, 2, 3, 1, 1, 2, 1 };
+        int[] arr = {1, 2, 3, 1, 1, 2, 1};
         int K = 4;
         print(appearMoreThanK(arr, K));
     }
