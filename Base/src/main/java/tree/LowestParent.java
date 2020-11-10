@@ -137,24 +137,24 @@ public class LowestParent {
      */
     private static Info process(Node head, Node a, Node b) {
         if (null == head) {
-            return new Info(false,false,null);
+            return new Info(false, false, null);
         }
         Info left = process(head.left, a, b);
         Info right = process(head.right, a, b);
 
-        boolean hasA = a == head ||left.hasA || right.hasA;
-        boolean hasB = b == head ||left.hasB || right.hasB;
+        boolean hasA = a == head || left.hasA || right.hasA;
+        boolean hasB = b == head || left.hasB || right.hasB;
         Node ans = null;
-        if(left.intersectNode!=null){
+        if (left.intersectNode != null) {
             ans = left.intersectNode;
         }
-        if(right.intersectNode!=null){
+        if (right.intersectNode != null) {
             ans = right.intersectNode;
         }
-        if(ans == null && hasA && hasB){
+        if (ans == null && hasA && hasB) {
             ans = head;
         }
-        return new Info(hasA,hasB,ans);
+        return new Info(hasA, hasB, ans);
     }
 
     /**
@@ -166,7 +166,7 @@ public class LowestParent {
      */
     public static Node generateBST(int maxLevel, int maxValue) {
         HashSet<Integer> set = new HashSet();
-        return generate(1, maxLevel, maxValue,set);
+        return generate(1, maxLevel, maxValue, set);
     }
 
     /**
@@ -182,10 +182,10 @@ public class LowestParent {
         if (level > maxLevel || Math.random() < 0.1) {
             return null;
         }
-        int value ;
+        int value;
         do {
             value = (int) (Math.random() * maxValue);
-        }while (set.contains(value));
+        } while (set.contains(value));
         set.add(value);
         Node node = new Node(value);
         node.left = generate(level + 1, maxLevel, maxValue, set);
@@ -204,7 +204,7 @@ public class LowestParent {
             do {
                 b = findRandomNode(head);
             } while (b == a);
-            if(findParent1(head,a,b) != findParent2(head,a,b)){
+            if (findParent1(head, a, b) != findParent2(head, a, b)) {
                 System.out.println("Oops!");
             }
         }
